@@ -1,0 +1,116 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import SEO from '~/components/astro/SEO.astro';
+import Header from '~/components/astro/Header.astro';
+import Footer from '~/components/astro/Footer.astro';
+import ScrollProgress from '~/components/react/ScrollProgress';
+import CursorLayer from '~/components/react/CursorLayer';
+import { SITE } from '~/data/site';
+import '~/styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  path?: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  publishedAt?: Date;
+  updatedAt?: Date;
+  noindex?: boolean;
+  breadcrumbs?: Array<{ label: string; href: string }>;
+  jsonLd?: object[];
+  hideHeader?: boolean;
+  hideFooter?: boolean;
+}
+
+const path = Astro.props.path ?? Astro.url.pathname;
+const props = { ...Astro.props, path };
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <!-- Theme bootstrap.
+         Runs synchronously on initial load (prevents flash of wrong theme) AND
+         re-applies on every Astro view-transition navigation. Without the second
+         hook, ClientRouter swaps in a new page whose <html> still has the
+         hard-coded data-theme="dark" from SSR, overwriting the user's choice. -->
+    <script is:inline>
+      (function () {
+        function applyTheme() {
+          try {
+            var stored = localStorage.getItem('reyad-theme');
+            var system = window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+            var theme = stored === 'light' || stored === 'dark' ? stored : system;
+            document.documentElement.dataset.theme = theme;
+          } catch (e) {}
+        }
+        applyTheme();
+        document.addEventListener('astro:after-swap', applyTheme);
+      })();
+    </script>
+
+    <SEO {...props} />
+
+    <!-- Google Fonts — Geist Sans, Geist Mono, Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+    />
+
+    <ClientRouter />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Skip to content</a>
+
+    <!-- Decorative motion overlays — render client-only so motion's hooks
+         never run during SSR (avoids React's spurious "Invalid hook call"
+         warning that motion + react-dom/server produce together). -->
+    <ScrollProgress client:only="react" />
+    <CursorLayer client:only="react" />
+
+    {!Astro.props.hideHeader && <Header />}
+
+    <main id="main" class="relative isolate">
+      <slot />
+    </main>
+
+    {!Astro.props.hideFooter && <Footer />}
+
+    <!-- Smooth scroll (Lenis) — desktop, no reduced-motion only -->
+    <script>
+      import('lenis').then(({ default: Lenis }) => {
+        if (typeof window === 'undefined') return;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        if (!window.matchMedia('(pointer: fine)').matches) return;
+
+        const lenis = new Lenis({
+          duration: 1.05,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+          touchMultiplier: 1,
+        });
+
+        const raf = (time: number) => {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        };
+        requestAnimationFrame(raf);
+
+        document.addEventListener('astro:before-preparation', () => lenis.destroy(), { once: true });
+      });
+    </script>
+  </body>
+</html>

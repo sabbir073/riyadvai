@@ -1,0 +1,99 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import { ArrowUpRight, Clock, Calendar } from 'lucide-react';
+import { formatDate, readingTime } from '~/lib/format';
+
+const posts = (await getCollection('insights', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+
+<BaseLayout
+  title="Insights"
+  description="Long-form essays by Reyad Hasnain on ICT policy, telecom regulation, the digital economy, and the case for ICT as Bangladesh's next RMG."
+  path="/insights"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Insights', href: '/insights' },
+  ]}
+>
+  <section class="page-x relative overflow-hidden pt-32 pb-16 md:pt-40">
+    <div class="aurora opacity-50"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"></span>
+        Insights
+      </span>
+      <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+        Long-form. <span class="font-serif italic text-gradient">First-person.</span>
+      </h1>
+      <p class="enter mt-8 max-w-3xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        Where the op-ed page runs out of room — essays, follow-ups, technical detail, and the cross-disciplinary work that doesn't fit anywhere else. Subscribe to the <a href="/rss.xml" class="text-[var(--accent-cyan)] underline-offset-4 hover:underline">RSS feed</a>.
+      </p>
+    </div>
+  </section>
+
+  <Section eyebrow="Latest">
+    {posts.length === 0 ? (
+      <p class="text-[var(--text-muted)]">No posts yet — check back soon.</p>
+    ) : (
+      <ul class="grid gap-6 md:grid-cols-12">
+        {posts.map((post, i) => {
+          const minutes = readingTime(post.body ?? post.data.description);
+          const featured = i === 0;
+          return (
+            <li class:list={[featured ? 'md:col-span-12' : 'md:col-span-6']}>
+              <a
+                href={`/insights/${post.id}`}
+                class="glass border-gradient group relative flex h-full flex-col gap-4 overflow-hidden rounded-3xl p-6 transition-transform duration-500 hover:-translate-y-1 md:p-8"
+              >
+                <div class="flex items-center gap-4 text-xs text-[var(--text-faint)]">
+                  <span class="inline-flex items-center gap-1.5">
+                    <Calendar className="h-3 w-3" />
+                    <time datetime={post.data.publishedAt.toISOString()}>
+                      {formatDate(post.data.publishedAt)}
+                    </time>
+                  </span>
+                  <span aria-hidden>·</span>
+                  <span class="inline-flex items-center gap-1.5">
+                    <Clock className="h-3 w-3" />
+                    {minutes} min
+                  </span>
+                </div>
+
+                <h3
+                  class:list={[
+                    'font-serif italic leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent-cyan)]',
+                    featured ? 'text-4xl md:text-6xl' : 'text-2xl md:text-3xl',
+                  ]}
+                >
+                  {post.data.title}
+                </h3>
+                <p class="text-pretty text-[var(--text-muted)] leading-relaxed">
+                  {post.data.description}
+                </p>
+
+                {post.data.tags.length > 0 && (
+                  <div class="mt-2 flex flex-wrap gap-2">
+                    {post.data.tags.map((t) => (
+                      <span class="rounded-full border border-[var(--border-hair)] px-2.5 py-0.5 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <span class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--text-muted)] transition-all group-hover:translate-x-0.5 group-hover:text-[var(--accent-cyan)]">
+                  Read essay
+                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    )}
+  </Section>
+</BaseLayout>

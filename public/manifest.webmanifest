@@ -1,0 +1,15 @@
+{
+  "name": "Reyad Hasnain — ICT Policy Advocate",
+  "short_name": "Reyad Hasnain",
+  "description": "ICT Policy Advocate · Telecom Strategist · Digital Economy Thought Leader",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0d1224",
+  "theme_color": "#0d1224",
+  "icons": [
+    { "src": "/favicon.svg", "type": "image/svg+xml", "sizes": "any" },
+    { "src": "/icon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/icon-512.png", "type": "image/png", "sizes": "512x512" }
+  ]
+}

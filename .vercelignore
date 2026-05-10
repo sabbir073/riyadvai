@@ -1,0 +1,33 @@
+# Files Vercel doesn't need to upload during deploy.
+# Keeps the build context small and faster.
+
+node_modules
+.git
+.astro
+.vscode
+.idea
+
+# Local env (Vercel reads env vars from its dashboard, not from .env)
+.env
+.env.local
+.env.*.local
+
+# Local build output (Vercel runs its own build)
+dist
+.output
+
+# Logs + caches
+*.log
+npm-debug.log*
+.cache
+.turbo
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Project-specific
+plans/
+docs/
+*.pdf
+test-og.png

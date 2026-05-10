@@ -1,0 +1,211 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import StickyChapters, { type Chapter } from '~/components/react/StickyChapters';
+import MagneticButton from '~/components/react/MagneticButton';
+import { faqSchema } from '~/lib/seo';
+import { PERSON } from '~/data/site';
+import { ArrowRight, GraduationCap, Award, MapPin } from 'lucide-react';
+
+const chapters: Chapter[] = [
+  {
+    year: '1990s · Faujderhat',
+    title: 'Where the discipline started.',
+    body:
+      'SSC and HSC at Faujderhat Cadet College in Chittagong — the institution that shaped a cohort of Bangladeshi leaders across military, civil service, business, and the professions. Cadet college taught the cadence: structure, accountability, results.',
+    accent: 'cyan',
+  },
+  {
+    year: '2000s · Michigan',
+    title: 'Engineering as a way of seeing.',
+    body:
+      'BSc Electrical Engineering at Michigan Technological University. The discipline of looking at any system — telecom, regulatory, organisational — as something with inputs, outputs, constraints, and feedback loops. That lens never left.',
+    accent: 'emerald',
+  },
+  {
+    year: '2005 — 2007 · Siemens',
+    title: 'Project management at the edge of the network.',
+    body:
+      'Head of Project Management at Siemens Bangladesh during a critical scaling phase of the country\'s telecom infrastructure. Sites, schedules, stakeholders, vendor escalations — the granular reality of what it actually takes to ship telecom at country scale.',
+    accent: 'gold',
+  },
+  {
+    year: '2007 — 2014 · NSN',
+    title: 'Two markets, one playbook.',
+    body:
+      'Head of Sales & Business Development at Nokia Siemens Networks across Dhaka and Windhoek. €11.2M+ in negotiated telecom infrastructure deals. Two distinctly different emerging markets — Bangladesh and Namibia — taught how much of telecom strategy is universal and how much is local.',
+    accent: 'magenta',
+  },
+  {
+    year: '2014 — 2019 · Comviva',
+    title: 'Mobile financial services, at country scale.',
+    body:
+      'Country Manager for Mahindra Comviva — the platform behind much of Bangladesh\'s mobile financial services rails. Led nationwide MFS expansion. 100% YoY revenue growth across the country portfolio. The years that turned an interest in MFS policy into hands-on operating experience.',
+    accent: 'indigo',
+  },
+  {
+    year: '2019 — Today · Smart Lab',
+    title: 'Industry leadership, public advocacy.',
+    body:
+      'Founded Smart Lab as the executive vehicle for the next phase. Combining hands-on industry leadership with active public advocacy on ICT policy, the digital economy, youth empowerment, and the case for technology-led inclusive growth. The argument that runs through everything: ICT can be Bangladesh\'s next RMG.',
+    accent: 'cyan',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Who is Reyad Hasnain?',
+    a: 'Reyad Hasnain is an ICT Policy Advocate, Telecom Strategist, and Digital Economy Thought Leader. He is the Managing Director of Smart Lab and SUBARU Bangladesh, and one of South Asia\'s most articulate public voices on telecom regulation and the digital economy.',
+  },
+  {
+    q: 'What is Reyad\'s core conviction?',
+    a: 'That ICT and IT-enabled services can be the next RMG for Bangladesh — the next great export engine — provided the country\'s regulation, skilling, and capital architecture are redrawn to enable rather than tax that ambition.',
+  },
+  {
+    q: 'Where has Reyad worked?',
+    a: 'Smart Lab & SUBARU Bangladesh (2019–present), Mahindra Comviva (2014–2019, Country Manager Bangladesh), Nokia Siemens Networks (2007–2014, Head of Sales & BD across Dhaka and Windhoek), and Siemens Bangladesh Limited (2005–2007, Head of Project Management).',
+  },
+  {
+    q: 'What are Reyad\'s policy priorities?',
+    a: 'Regulatory reform for ICT exports, digital inclusion and rural broadband, youth skills and ICT workforce, AI/Fintech/emerging tech enablement, and digital sovereignty and data protection.',
+  },
+];
+
+const headshot = '/images/hero/portrait.jpg';
+---
+
+<BaseLayout
+  title="About"
+  description={`${PERSON.fullName} — ${PERSON.shortBio}`}
+  path="/about"
+  type="profile"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+  ]}
+  jsonLd={[faqSchema(faqs)]}
+>
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="page-x relative pt-32 pb-20 md:pt-40 md:pb-28">
+    <div class="aurora opacity-60"></div>
+    <div class="relative mx-auto max-w-7xl grid items-center gap-12 md:grid-cols-12 md:gap-16">
+      <div class="md:col-span-7">
+        <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+          <span class="pulse-dot"></span>
+          About
+        </span>
+        <h1 class="enter mt-6 text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+          Twenty years of building telecom &amp;
+          <span class="font-serif italic text-gradient">arguing the policy</span> that surrounds it.
+        </h1>
+        <p class="enter mt-8 max-w-2xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+          {PERSON.longBio}
+        </p>
+        <div class="enter mt-8 flex flex-wrap gap-3">
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            Asia
+          </span>
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            Africa
+          </span>
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            Europe
+          </span>
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            North America
+          </span>
+        </div>
+      </div>
+
+      <div class="md:col-span-5">
+        <div class="relative mx-auto aspect-[4/5] w-full max-w-sm">
+          <span aria-hidden class="absolute -left-3 -top-3 h-8 w-8 border-l-2 border-t-2 border-[var(--accent-cyan)]"></span>
+          <span aria-hidden class="absolute -right-3 -top-3 h-8 w-8 border-r-2 border-t-2 border-[var(--accent-gold)]"></span>
+          <span aria-hidden class="absolute -bottom-3 -left-3 h-8 w-8 border-b-2 border-l-2 border-[var(--accent-gold)]"></span>
+          <span aria-hidden class="absolute -bottom-3 -right-3 h-8 w-8 border-b-2 border-r-2 border-[var(--accent-cyan)]"></span>
+          <div class="relative h-full w-full overflow-hidden rounded-3xl border border-[var(--border-hair)] shadow-[0_40px_100px_-25px_rgba(0,0,0,0.6)]">
+            <img
+              src={headshot}
+              alt={`Portrait of ${PERSON.fullName}`}
+              loading="eager"
+              decoding="async"
+              class="h-full w-full object-cover"
+              transition:name="reyad-headshot"
+            />
+            <div aria-hidden class="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)]/70 via-transparent to-transparent"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STICKY STORY ────────────────────────────────────────────── -->
+  <Section eyebrow="The path here" title="From cadet college to country managing director.">
+    <StickyChapters
+      client:visible
+      chapters={chapters}
+      imageUrl={headshot}
+      imageAlt={`Portrait of ${PERSON.fullName}`}
+    />
+  </Section>
+
+  <!-- ── EDUCATION + AFFILIATIONS ────────────────────────────────── -->
+  <Section eyebrow="Education & affiliations" title="The institutions that shaped the work.">
+    <div class="grid gap-6 md:grid-cols-2">
+      <div class="glass border-gradient flex flex-col gap-6 rounded-3xl p-8">
+        <div class="flex items-center gap-3">
+          <div class="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent-cyan-soft)] text-[var(--accent-cyan)]">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+          <h3 class="text-xl font-semibold">Education</h3>
+        </div>
+        <ul class="flex flex-col gap-4 text-[var(--text-muted)]">
+          {PERSON.alumniOf.map((a) => (
+            <li class="flex flex-col gap-1 border-l border-[var(--border-hair)] pl-4">
+              <span class="text-sm font-medium uppercase tracking-wider text-[var(--accent-cyan)]">
+                {a.degree}
+              </span>
+              <span class="text-[var(--text-primary)]">{a.name}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="glass border-gradient flex flex-col gap-6 rounded-3xl p-8">
+        <div class="flex items-center gap-3">
+          <div class="grid h-10 w-10 place-items-center rounded-xl bg-[var(--accent-gold-soft)] text-[var(--accent-gold)]">
+            <Award className="h-5 w-5" />
+          </div>
+          <h3 class="text-xl font-semibold">Affiliations</h3>
+        </div>
+        <ul class="flex flex-col gap-4 text-[var(--text-muted)]">
+          {PERSON.affiliations.map((a) => (
+            <li class="flex items-start gap-3 border-l border-[var(--border-hair)] pl-4">
+              <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--accent-gold)]"></span>
+              <span class="text-[var(--text-primary)]">{a}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ── BASED IN ─────────────────────────────────────────────────── -->
+  <Section align="center" title="Based in Dhaka. Operating globally.">
+    <div class="mx-auto max-w-2xl text-center">
+      <div class="inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-4 py-2 text-sm text-[var(--text-muted)] backdrop-blur">
+        <MapPin className="h-4 w-4 text-[var(--accent-cyan)]" />
+        {PERSON.address}
+      </div>
+      <p class="mt-8 text-pretty text-[var(--text-lead)] text-[var(--text-muted)] leading-relaxed">
+        For speaking, panels, policy commentary, or executive advisory engagements — get in touch directly.
+      </p>
+      <div class="mt-8 flex justify-center">
+        <MagneticButton client:visible href="/contact" variant="primary" size="lg">
+          Contact Reyad
+          <ArrowRight className="h-4 w-4" />
+        </MagneticButton>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

@@ -1,0 +1,85 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import ExperienceTimeline from '~/components/react/ExperienceTimeline';
+import StatCounter from '~/components/react/StatCounter';
+import { STATS } from '~/data/site';
+
+const entries = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+const roles = entries.map((e) => ({
+  slug: e.id,
+  role: e.data.role,
+  company: e.data.company,
+  location: e.data.location,
+  startYear: e.data.startYear,
+  endYear: e.data.endYear,
+  summary: e.data.summary,
+  achievements: e.data.achievements,
+}));
+---
+
+<BaseLayout
+  title="Experience"
+  description="Twenty years of telecom and ICT executive experience across Smart Lab Bangladesh, Mahindra Comviva, Nokia Siemens Networks, and Siemens — across Asia, Africa, Europe, and North America."
+  path="/experience"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Experience', href: '/experience' },
+  ]}
+>
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="page-x relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <div class="aurora opacity-50"></div>
+
+    <!-- Decorative network image, behind text -->
+    <img
+      src="/images/hero/fiber.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      class="absolute inset-y-0 right-0 -z-10 hidden h-full w-1/2 object-cover opacity-15 md:block"
+    />
+    <div aria-hidden class="absolute inset-y-0 right-0 -z-10 hidden w-1/2 bg-gradient-to-r from-[var(--bg-base)] via-[var(--bg-base)]/70 to-transparent md:block"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"></span>
+        Career
+      </span>
+      <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+        Two decades. Four companies.
+        <span class="font-serif italic text-gradient">Two continents of operating ground.</span>
+      </h1>
+      <p class="enter mt-8 max-w-3xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        From project management at Siemens Bangladesh in 2005, through €11.2M+ in negotiated infrastructure deals at Nokia Siemens Networks across Dhaka and Windhoek, into nationwide mobile-financial-service expansion at Mahindra Comviva — and now leading Smart Lab Bangladesh and SUBARU Bangladesh. The through-line is the same: operating telecom businesses in real emerging markets, and the policy intuition that work produces.
+      </p>
+
+      <!-- Geographic chips -->
+      <div class="enter mt-10 flex flex-wrap gap-2">
+        {['Dhaka, Bangladesh', 'Windhoek, Namibia', 'Across Asia', 'Across Africa'].map((p) => (
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            {p}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS STRIP ───────────────────────────────────────────── -->
+  <Section>
+    <div class="grid grid-cols-2 gap-6 md:grid-cols-4">
+      {STATS.map((s) => (
+        <div class="glass border-gradient rounded-2xl p-6">
+          <StatCounter client:visible value={s.value} label={s.label} sub={s.sub} />
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ── TIMELINE ─────────────────────────────────────────────────── -->
+  <Section eyebrow="Roles" title="The work, in chronological order.">
+    <ExperienceTimeline client:visible roles={roles} />
+  </Section>
+</BaseLayout>

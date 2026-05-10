@@ -1,0 +1,70 @@
+---
+import OutletLogos from './OutletLogos.astro';
+
+interface Props {
+  items: readonly string[];
+  speed?: number;
+}
+
+const { items, speed = 45 } = Astro.props;
+const all = [...items, ...items];
+---
+
+<div class="logo-marquee" aria-label="Featured publications and television networks">
+  <div class="logo-marquee__track" style={`animation-duration: ${speed}s;`}>
+    {
+      all.map((name, i) => (
+        <div class="logo-marquee__item" aria-hidden={i >= items.length}>
+          <OutletLogos name={name} className="logo-marquee__logo h-8 md:h-10 w-auto text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]" />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .logo-marquee {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .logo-marquee__track {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: 4rem;
+    padding-right: 4rem;
+    animation: logo-marquee-scroll linear infinite;
+    will-change: transform;
+  }
+
+  .logo-marquee:hover .logo-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .logo-marquee__item {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    min-width: 9rem;
+    padding-block: 0.5rem;
+  }
+
+  @keyframes logo-marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-marquee__track {
+      animation: none;
+    }
+  }
+</style>

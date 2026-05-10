@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import PolicyStack, { type Policy } from '~/components/react/PolicyStack';
+import MagneticButton from '~/components/react/MagneticButton';
+import { ArrowRight } from 'lucide-react';
+
+const entries = (await getCollection('policies')).sort((a, b) => a.data.order - b.data.order);
+const policies: Policy[] = entries.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  short: e.data.short,
+  accent: e.data.accent,
+  icon: e.data.icon,
+  summary: e.data.summary,
+  points: e.data.points,
+  order: e.data.order,
+}));
+---
+
+<BaseLayout
+  title="Policy Priorities"
+  description="Five policy priorities for Bangladesh's ICT industry — regulatory reform, digital inclusion, youth skills, AI/fintech, and digital sovereignty. The case for treating ICT as the next RMG."
+  path="/policy"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Policy', href: '/policy' },
+  ]}
+>
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="page-x relative overflow-hidden pt-32 pb-16 md:pt-40">
+    <div class="aurora opacity-60"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"></span>
+        Policy Priorities
+      </span>
+      <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+        Five priorities for Bangladesh's
+        <span class="font-serif italic text-gradient"> ICT industry.</span>
+      </h1>
+      <p class="enter mt-8 max-w-3xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        The argument behind two decades of writing and operating: ICT and IT-enabled services can be Bangladesh's next RMG — its next great export engine. Two-thirds of Bangladeshis are under 35; the demographic dividend will not wait for our policy to catch up. Here is what the regulatory architecture has to look like for that to happen.
+      </p>
+
+      <div class="enter mt-12 grid gap-3 md:grid-cols-3">
+        <div class="glass border-gradient flex items-start gap-3 rounded-2xl p-4">
+          <span class="font-mono text-2xl font-semibold text-[var(--accent-cyan)]">⅔</span>
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-medium text-[var(--text-primary)]">of Bangladeshis under 35</p>
+            <p class="text-xs text-[var(--text-muted)]">Demographic dividend driver</p>
+          </div>
+        </div>
+        <div class="glass border-gradient flex items-start gap-3 rounded-2xl p-4">
+          <span class="font-mono text-2xl font-semibold text-[var(--accent-gold)]">5</span>
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-medium text-[var(--text-primary)]">interconnected priorities</p>
+            <p class="text-xs text-[var(--text-muted)]">Regulation, inclusion, skills, AI, sovereignty</p>
+          </div>
+        </div>
+        <div class="glass border-gradient flex items-start gap-3 rounded-2xl p-4">
+          <span class="font-mono text-2xl font-semibold text-[oklch(0.7_0.22_340)]">12y</span>
+          <div class="flex flex-col gap-1">
+            <p class="text-sm font-medium text-[var(--text-primary)]">of public advocacy</p>
+            <p class="text-xs text-[var(--text-muted)]">In Bangladesh's leading dailies since 2013</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 5 POLICY PRIORITIES — clean alternating vertical stack ─── -->
+  <Section eyebrow="The five priorities" title="One body of work, five reinforcing pillars.">
+    <PolicyStack client:visible policies={policies} />
+  </Section>
+
+  <!-- ── CTA ───────────────────────────────────────────────────────── -->
+  <Section align="center" title="Want to dig deeper into the writing?">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        Twelve years of op-eds, TV commentary, and longer-form essays make the detailed case behind each priority.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <MagneticButton client:visible href="/thought-leadership" variant="primary" size="lg">
+          Read the op-eds
+          <ArrowRight className="h-4 w-4" />
+        </MagneticButton>
+        <MagneticButton client:visible href="/insights" variant="secondary" size="lg">
+          Long-form insights
+        </MagneticButton>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

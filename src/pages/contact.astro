@@ -1,0 +1,119 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import ContactForm from '~/components/react/ContactForm';
+import { Mail, Phone, MapPin, Linkedin } from 'lucide-react';
+import { PERSON } from '~/data/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description={`Get in touch with Reyad Hasnain — speaking, media, advisory, and policy commentary enquiries. Email ${PERSON.email} or use the form.`}
+  path="/contact"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Contact', href: '/contact' },
+  ]}
+>
+  <section class="page-x section-y relative pt-32">
+    <div class="aurora opacity-60"></div>
+    <div class="relative mx-auto max-w-6xl">
+      <div class="grid gap-12 md:grid-cols-12">
+        <div class="md:col-span-5">
+          <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+            <span class="pulse-dot"></span>
+            Contact
+          </span>
+
+          <h1 class="enter mt-6 text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl">
+            Let's <span class="font-serif italic text-gradient">talk.</span>
+          </h1>
+
+          <p class="enter mt-6 text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+            For speaking engagements, media interviews, advisory work, or policy commentary — Reyad reads every enquiry personally.
+          </p>
+
+          <ul class="mt-10 flex flex-col gap-4">
+            <li>
+              <a
+                href={`mailto:${PERSON.email}`}
+                class="glass border-gradient group flex items-center gap-4 rounded-2xl p-4 transition-transform hover:-translate-y-0.5"
+              >
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-cyan-soft)] text-[var(--accent-cyan)]">
+                  <Mail className="h-5 w-5" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="text-xs uppercase tracking-widest text-[var(--text-faint)]">
+                    Email
+                  </span>
+                  <span class="font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)]">
+                    {PERSON.email}
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={PERSON.phoneHref}
+                class="glass border-gradient group flex items-center gap-4 rounded-2xl p-4 transition-transform hover:-translate-y-0.5"
+              >
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-gold-soft)] text-[var(--accent-gold)]">
+                  <Phone className="h-5 w-5" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="text-xs uppercase tracking-widest text-[var(--text-faint)]">
+                    Phone
+                  </span>
+                  <span class="font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-gold)]">
+                    {PERSON.phone}
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <a
+                href={PERSON.socials.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="glass border-gradient group flex items-center gap-4 rounded-2xl p-4 transition-transform hover:-translate-y-0.5"
+              >
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-[oklch(0.65_0.18_280/0.18)] text-[oklch(0.65_0.18_280)]">
+                  <Linkedin className="h-5 w-5" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="text-xs uppercase tracking-widest text-[var(--text-faint)]">
+                    LinkedIn
+                  </span>
+                  <span class="font-medium text-[var(--text-primary)] group-hover:text-[oklch(0.65_0.18_280)]">
+                    /in/reyad-hasnain
+                  </span>
+                </span>
+              </a>
+            </li>
+            <li>
+              <div
+                class="flex items-center gap-4 rounded-2xl border border-dashed border-[var(--border-hair)] p-4"
+              >
+                <span class="grid h-12 w-12 place-items-center rounded-xl text-[var(--text-muted)]">
+                  <MapPin className="h-5 w-5" />
+                </span>
+                <span class="flex flex-col">
+                  <span class="text-xs uppercase tracking-widest text-[var(--text-faint)]">
+                    Based in
+                  </span>
+                  <span class="font-medium text-[var(--text-primary)]">{PERSON.address}</span>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="md:col-span-7">
+          <div class="glass border-gradient rounded-3xl p-6 md:p-10">
+            <ContactForm client:load />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

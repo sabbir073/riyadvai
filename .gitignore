@@ -1,0 +1,204 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Reyad Hasnain — .gitignore
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules/
+jspm_packages/
+
+# Lock files from package managers we don't use (keep package-lock.json)
+yarn.lock
+pnpm-lock.yaml
+bun.lock
+bun.lockb
+
+
+# ── Build output (Astro + Vercel + generic) ──────────────────────────────────
+dist/
+.output/
+out/
+build/
+.astro/
+.vercel/
+.netlify/
+.turbo/
+.next/
+.svelte-kit/
+
+
+# ── Vite / bundler cache ─────────────────────────────────────────────────────
+.vite/
+.swc/
+.parcel-cache/
+.rollup.cache/
+*.tsbuildinfo
+
+
+# ── Environment variables ────────────────────────────────────────────────────
+# Never commit real credentials. .env.example IS committed (as the template).
+.env
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.staging
+.env.staging.local
+.env.production
+.env.production.local
+.env.*.local
+!.env.example
+
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.npm/
+.pnpm-store/
+.yarn/
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+
+# ── Test, coverage, profiling ────────────────────────────────────────────────
+coverage/
+*.lcov
+.nyc_output/
+.cache/
+.cypress/
+.playwright/
+playwright-report/
+test-results/
+e2e-results/
+junit.xml
+*.heapsnapshot
+
+
+# ── Editor / IDE ─────────────────────────────────────────────────────────────
+# VS Code: ignore everything except the team-shared bits.
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# JetBrains (WebStorm, IntelliJ)
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# Windows shortcut + system files
+*.lnk
+*.tmp
+*.temp
+
+
+# ── TypeScript / build artifacts ─────────────────────────────────────────────
+*.d.ts.map
+*.js.map
+.eslintcache
+.stylelintcache
+
+
+# ── Generated / temporary project files ──────────────────────────────────────
+# Local debugging output left over from `curl -o test-og.png ...` etc.
+test-*.png
+test-*.json
+test-*.html
+debug.log
+*.pid
+*.seed
+*.pid.lock
+
+# Local-only sandboxes
+sandbox/
+scratch/
+tmp/
+temp/
+
+# Astro telemetry opt-out marker (created locally, not shareable)
+.astro-telemetry-disabled
+
+
+# ── Image optimization caches ────────────────────────────────────────────────
+# Astro <Image> component caches optimised assets here during dev.
+.astro/_image-cache/
+.astro/_assets-cache/
+
+
+# ── Lighthouse / perf reports ────────────────────────────────────────────────
+lighthouse-*.html
+lighthouse-*.json
+.lighthouseci/
+
+
+# ── Storybook (if added later) ───────────────────────────────────────────────
+storybook-static/
+.out/
+
+
+# ── Sentry (if added later) ──────────────────────────────────────────────────
+.sentryclirc
+
+
+# ── Local Vercel CLI artifacts ───────────────────────────────────────────────
+.vercel/
+# (Already covered above — repeated here for clarity. Vercel CLI also creates
+# a `.vercel/` dir on `vercel link` / `vercel pull` to cache the project ID
+# and env vars. Never commit it; teammates link their own checkouts.)
+
+
+# ── Project-specific ─────────────────────────────────────────────────────────
+# Source profile PDF — already public on the site, but keep out of git history
+# in case the source file gets edited frequently or you don't want binaries
+# in version control. Comment this line OUT if you DO want to commit it.
+# Reyad_Hasnain_ICT_Policy_Advocate.pdf
+
+# Any private notes / drafts kept locally
+NOTES.md
+DRAFTS/
+plans/
+
+# Local Claude Code transcript cache (this assistant's working state)
+.claude/

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import MagneticButton from '~/components/react/MagneticButton';
+import { ArrowLeft, Mail } from 'lucide-react';
+---
+
+<BaseLayout title="404 — Page not found" path="/404" noindex>
+  <section class="page-x relative grid min-h-[100svh] place-items-center pt-32">
+    <div class="aurora opacity-60"></div>
+
+    <div class="relative mx-auto max-w-3xl text-center">
+      <p class="font-mono text-sm uppercase tracking-widest text-[var(--accent-cyan)]">
+        Error 404
+      </p>
+      <h1 class="mt-4 text-balance font-sans text-6xl font-semibold leading-[0.95] tracking-tight md:text-8xl">
+        That page is
+        <span class="font-serif italic text-gradient"> off the network.</span>
+      </h1>
+      <p class="mt-8 text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        The link is broken, the page has moved, or it never existed. Either way, here is the way back.
+      </p>
+
+      <div class="mt-12 flex flex-wrap justify-center gap-3">
+        <MagneticButton client:visible href="/" variant="primary" size="lg">
+          <ArrowLeft className="h-4 w-4" />
+          Back home
+        </MagneticButton>
+        <MagneticButton client:visible href="/contact" variant="secondary" size="lg">
+          <Mail className="h-4 w-4" />
+          Tell Reyad what you were looking for
+        </MagneticButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

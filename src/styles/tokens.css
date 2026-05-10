@@ -1,0 +1,63 @@
+/*
+ * Design tokens — single source of truth.
+ * Defaults to dark; light mode overrides under [data-theme="light"].
+ */
+
+:root,
+:root[data-theme='dark'] {
+  /* Surfaces */
+  --bg-base: oklch(0.13 0.02 250);
+  --bg-elevated: oklch(0.18 0.03 250);
+  --bg-glass: oklch(0.22 0.04 250 / 0.55);
+
+  /* Accents */
+  --accent-cyan: oklch(0.78 0.18 220);
+  --accent-cyan-soft: oklch(0.78 0.18 220 / 0.18);
+  --accent-gold: oklch(0.82 0.13 85);
+  --accent-gold-soft: oklch(0.82 0.13 85 / 0.18);
+  --accent-magenta: oklch(0.7 0.22 340);
+  --accent-emerald: oklch(0.7 0.18 165);
+
+  /* Text */
+  --text-primary: oklch(0.96 0.005 250);
+  --text-muted: oklch(0.68 0.02 250);
+  --text-faint: oklch(0.5 0.02 250);
+
+  /* Hairlines */
+  --border-hair: oklch(1 0 0 / 0.08);
+  --border-bright: oklch(1 0 0 / 0.16);
+}
+
+:root[data-theme='light'] {
+  --bg-base: oklch(0.985 0.005 90);
+  --bg-elevated: oklch(0.98 0.005 90);
+  --bg-glass: oklch(1 0 0 / 0.7);
+
+  --accent-cyan: oklch(0.55 0.18 220);
+  --accent-cyan-soft: oklch(0.55 0.18 220 / 0.12);
+  --accent-gold: oklch(0.62 0.15 65);
+  --accent-gold-soft: oklch(0.62 0.15 65 / 0.12);
+  --accent-magenta: oklch(0.55 0.22 340);
+  --accent-emerald: oklch(0.55 0.18 165);
+
+  --text-primary: oklch(0.18 0.02 250);
+  --text-muted: oklch(0.4 0.02 250);
+  --text-faint: oklch(0.6 0.02 250);
+
+  --border-hair: oklch(0 0 0 / 0.08);
+  --border-bright: oklch(0 0 0 / 0.16);
+}
+
+/* Honour system preference if no explicit choice */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --bg-base: oklch(0.985 0.005 90);
+    --bg-elevated: oklch(0.98 0.005 90);
+    --bg-glass: oklch(1 0 0 / 0.7);
+    --accent-cyan: oklch(0.55 0.18 220);
+    --accent-gold: oklch(0.62 0.15 65);
+    --text-primary: oklch(0.18 0.02 250);
+    --text-muted: oklch(0.4 0.02 250);
+    --border-hair: oklch(0 0 0 / 0.08);
+  }
+}

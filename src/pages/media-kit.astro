@@ -1,0 +1,205 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import MagneticButton from '~/components/react/MagneticButton';
+import { Download, FileText, Image as ImageIcon, Type, Quote } from 'lucide-react';
+import { PERSON, PRESS_QUOTES } from '~/data/site';
+
+const downloads = [
+  {
+    icon: FileText,
+    label: 'Long-form bio',
+    file: '/media-kit/reyad-hasnain-bio.pdf',
+    size: 'PDF · 240 KB',
+    description: 'Print-ready full biography with experience, education, and policy positions.',
+    accent: 'var(--accent-cyan)',
+  },
+  {
+    icon: ImageIcon,
+    label: 'High-res headshots',
+    file: '/media-kit/reyad-hasnain-headshots.zip',
+    size: 'ZIP · 18 MB',
+    description: 'Editorial and event-ready portraits, RGB and CMYK, 300 DPI.',
+    accent: 'var(--accent-gold)',
+  },
+  {
+    icon: Type,
+    label: 'Logo & brand pack',
+    file: '/media-kit/reyad-hasnain-brand.zip',
+    size: 'ZIP · 3 MB',
+    description: 'Wordmark, signature lockup, and Smart Lab brand assets in SVG and PNG.',
+    accent: 'var(--accent-magenta)',
+  },
+];
+
+const bios = [
+  {
+    label: 'One-liner',
+    text:
+      'Reyad Hasnain is an ICT Policy Advocate and Telecom Strategist, MD of Smart Lab Bangladesh, making the case that ICT can be the next RMG.',
+  },
+  {
+    label: 'Short (≈ 60 words)',
+    text:
+      'Reyad Hasnain is the Managing Director of Smart Lab and SUBARU Bangladesh and one of South Asia\'s most articulate public voices on ICT policy and the digital economy. Across two decades at Smart Lab, Mahindra Comviva, Nokia Siemens Networks, and Siemens, he has led nationwide MFS expansion, closed €11.2M+ in telecom infrastructure deals, and delivered 100% YoY emerging-market revenue growth.',
+  },
+  {
+    label: 'Long (≈ 150 words)',
+    text: PERSON.longBio,
+  },
+];
+---
+
+<BaseLayout
+  title="Media Kit"
+  description="Press resources for Reyad Hasnain — high-res headshots, bios in three lengths, brand assets, and contact details for media enquiries."
+  path="/media-kit"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Media Kit', href: '/media-kit' },
+  ]}
+>
+  <section class="page-x relative overflow-hidden pt-32 pb-16 md:pt-40">
+    <div class="aurora opacity-60"></div>
+
+    <div class="relative mx-auto max-w-7xl grid gap-12 md:grid-cols-12 md:items-end">
+      <div class="md:col-span-7">
+        <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+          <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"></span>
+          Media Kit
+        </span>
+        <h1 class="enter mt-6 text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+          Everything a journalist
+          <span class="font-serif italic text-gradient">might need.</span>
+        </h1>
+        <p class="enter mt-8 max-w-2xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+          Bios in three lengths, high-resolution headshots, brand assets, and direct contact. Take what you need — for op-eds, panels, conferences, books, podcasts, broadcast appearances.
+        </p>
+      </div>
+
+      <div class="md:col-span-5">
+        <div class="relative aspect-[4/5] w-full max-w-xs overflow-hidden rounded-3xl border border-[var(--border-hair)] shadow-2xl md:max-w-sm md:justify-self-end">
+          <img
+            src="/images/hero/portrait.jpg"
+            alt={`${PERSON.fullName} — press portrait`}
+            loading="eager"
+            decoding="async"
+            class="h-full w-full object-cover"
+          />
+          <div aria-hidden class="absolute inset-0 bg-gradient-to-t from-[var(--bg-base)]/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4 right-4 text-xs">
+            <p class="font-mono uppercase tracking-widest text-[var(--accent-cyan)]">Approved press image</p>
+            <p class="mt-1 text-[var(--text-muted)]">3000×3750 · 300 DPI · CMYK + RGB</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOADS -->
+  <Section eyebrow="Downloads">
+    <div class="grid gap-6 md:grid-cols-3">
+      {downloads.map((d) => {
+        const Icon = d.icon;
+        return (
+          <a
+            href={d.file}
+            download
+            class="glass border-gradient group relative flex flex-col gap-5 rounded-3xl p-7 transition-transform hover:-translate-y-1"
+          >
+            <div
+              class="grid h-12 w-12 place-items-center rounded-2xl"
+              style={`background: color-mix(in oklch, ${d.accent} 18%, transparent); color: ${d.accent};`}
+            >
+              <Icon className="h-5 w-5" />
+            </div>
+            <div class="flex flex-col gap-2">
+              <h3 class="text-xl font-semibold">{d.label}</h3>
+              <p class="text-sm leading-relaxed text-[var(--text-muted)]">{d.description}</p>
+            </div>
+            <div class="mt-auto flex items-center justify-between border-t border-[var(--border-hair)] pt-4">
+              <span class="font-mono text-xs text-[var(--text-faint)]">{d.size}</span>
+              <span class="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-muted)] transition-colors group-hover:text-[var(--accent-cyan)]">
+                Download
+                <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+              </span>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+  </Section>
+
+  <!-- BIOS -->
+  <Section eyebrow="Approved bios" title="Three lengths. Pick one.">
+    <div class="grid gap-6 md:grid-cols-3">
+      {bios.map((b) => (
+        <article class="glass border-gradient flex flex-col gap-4 rounded-3xl p-6">
+          <span class="text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)]">
+            {b.label}
+          </span>
+          <p class="text-sm leading-relaxed text-[var(--text-muted)]">{b.text}</p>
+          <button
+            type="button"
+            class="mt-auto inline-flex items-center justify-center gap-2 self-start rounded-full border border-[var(--border-hair)] px-3 py-1.5 text-xs font-medium text-[var(--text-muted)] transition hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
+            data-copy={b.text}
+          >
+            Copy bio
+          </button>
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <!-- PRESS QUOTES -->
+  <Section eyebrow="Approved quotes" title="Pull-quotes for press use.">
+    <div class="columns-1 gap-6 md:columns-2 lg:columns-3 [&>*]:break-inside-avoid">
+      {PRESS_QUOTES.map((q) => (
+        <figure class="glass border-gradient mb-6 rounded-3xl p-6">
+          <Quote className="h-6 w-6 text-[var(--accent-cyan)] opacity-60" />
+          <blockquote class="mt-3 font-serif text-xl italic leading-tight text-[var(--text-primary)]">
+            {q.quote}
+          </blockquote>
+          <figcaption class="mt-4 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            {q.source} · {q.context}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </Section>
+
+  <!-- CONTACT INFO -->
+  <Section align="center" title="For interviews & comment.">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        Email is fastest. Reyad responds personally within 48 hours.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <MagneticButton client:visible href={PERSON.socials.email} variant="primary" size="lg">
+          {PERSON.email}
+        </MagneticButton>
+        <MagneticButton client:visible href="/contact" variant="secondary" size="lg">
+          Or use the form
+        </MagneticButton>
+      </div>
+    </div>
+  </Section>
+</BaseLayout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy ?? '';
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = btn.textContent ?? 'Copy bio';
+          btn.textContent = '✓ Copied';
+          window.setTimeout(() => {
+            btn.textContent = original;
+          }, 1500);
+        } catch {}
+      });
+    });
+  });
+</script>

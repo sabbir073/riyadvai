@@ -1,0 +1,116 @@
+---
+import { PERSON, NAV, SITE } from '~/data/site';
+import { Linkedin, Twitter, Mail } from 'lucide-react';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="relative mt-32 border-t border-[var(--border-hair)]">
+  <div class="aurora opacity-50"></div>
+
+  <div class="page-x relative mx-auto max-w-7xl py-16">
+    <div class="grid gap-12 md:grid-cols-12">
+      <div class="md:col-span-5">
+        <a href="/" class="inline-flex items-center gap-2 text-lg font-semibold">
+          <span
+            class="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-elevated)] text-sm font-bold text-[var(--accent-cyan)]"
+          >RH</span>
+          <span>{PERSON.fullName}</span>
+        </a>
+        <p class="mt-5 max-w-md text-sm text-[var(--text-muted)] leading-relaxed">
+          {PERSON.shortBio}
+        </p>
+
+        <div class="mt-6 flex items-center gap-2">
+          <a
+            href={PERSON.socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            class="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] text-[var(--text-muted)] backdrop-blur transition hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
+          >
+            <Linkedin className="h-4 w-4" />
+          </a>
+          <a
+            href={PERSON.socials.x}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X / Twitter"
+            class="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] text-[var(--text-muted)] backdrop-blur transition hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
+          >
+            <Twitter className="h-4 w-4" />
+          </a>
+          <a
+            href={PERSON.socials.email}
+            aria-label="Email"
+            class="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] text-[var(--text-muted)] backdrop-blur transition hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
+          >
+            <Mail className="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+
+      <nav class="md:col-span-3" aria-label="Footer">
+        <h3 class="text-xs font-medium uppercase tracking-widest text-[var(--text-faint)]">Site</h3>
+        <ul class="mt-4 space-y-2 text-sm">
+          {
+            NAV.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="text-[var(--text-muted)] transition-colors hover:text-[var(--text-primary)]"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="md:col-span-4">
+        <h3 class="text-xs font-medium uppercase tracking-widest text-[var(--text-faint)]">
+          Contact
+        </h3>
+        <address class="mt-4 space-y-2 text-sm not-italic text-[var(--text-muted)]">
+          <p>
+            <a
+              href={`mailto:${PERSON.email}`}
+              class="transition-colors hover:text-[var(--text-primary)]"
+            >{PERSON.email}</a>
+          </p>
+          <p>
+            <a
+              href={PERSON.phoneHref}
+              class="transition-colors hover:text-[var(--text-primary)]"
+            >{PERSON.phone}</a>
+          </p>
+          <p>{PERSON.address}</p>
+        </address>
+
+        <div class="mt-6 rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-glass)] p-4 backdrop-blur">
+          <p class="text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)]">
+            Speaking
+          </p>
+          <p class="mt-2 text-sm text-[var(--text-muted)]">
+            For media, panels, keynotes, and policy commentary —
+            <a
+              href="/contact"
+              class="text-[var(--text-primary)] underline-offset-4 transition-colors hover:text-[var(--accent-cyan)] hover:underline"
+            >book Reyad here</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="mt-16 flex flex-col items-start justify-between gap-4 border-t border-[var(--border-hair)] pt-8 text-xs text-[var(--text-faint)] md:flex-row md:items-center"
+    >
+      <p>© {year} {PERSON.fullName}. All rights reserved.</p>
+      <p class="font-mono">
+        <span class="text-[var(--accent-emerald)]">●</span>
+        Crafted with intent · {SITE.url.replace(/^https?:\/\//, '')}
+      </p>
+    </div>
+  </div>
+</footer>

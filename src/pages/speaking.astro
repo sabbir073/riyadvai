@@ -1,0 +1,127 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import SpeakingCardStack, { type Engagement } from '~/components/react/SpeakingCardStack';
+import MagneticButton from '~/components/react/MagneticButton';
+import { eventSchema } from '~/lib/seo';
+import { ArrowRight, Mic, Users, Tv } from 'lucide-react';
+
+const entries = await getCollection('speaking');
+const engagements: Engagement[] = entries
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .map((e) => ({
+    slug: e.id,
+    title: e.data.title,
+    event: e.data.event,
+    location: e.data.location,
+    date: e.data.date.toISOString(),
+    type: e.data.type,
+    summary: e.data.summary,
+    upcoming: e.data.upcoming,
+  }));
+
+const formats = [
+  {
+    icon: Mic,
+    title: 'Keynotes',
+    body: '30-to-45-minute keynotes on telecom strategy, digital economy policy, and the case for ICT exports — for industry conferences, government convenings, and CEO summits.',
+    accent: 'var(--accent-cyan)',
+  },
+  {
+    icon: Users,
+    title: 'Panels & moderation',
+    body: 'Policy panels, fireside chats, regulatory roundtables — live, on the record, with substantive preparation against the topic.',
+    accent: 'var(--accent-gold)',
+  },
+  {
+    icon: Tv,
+    title: 'Television & media',
+    body: 'On-the-record commentary on telecom regulation, MFS, ICT exports, and the Bangladesh digital economy — Channel 24, ETV, Independent TV, 71 TV.',
+    accent: 'var(--accent-magenta)',
+  },
+];
+
+const jsonLd = entries.map((e) =>
+  eventSchema({
+    name: e.data.title,
+    startDate: e.data.date,
+    location: e.data.location,
+    description: e.data.summary,
+    url: '/speaking',
+  }),
+);
+---
+
+<BaseLayout
+  title="Speaking"
+  description="Book Reyad Hasnain to speak — keynotes, policy panels, fireside chats, and television commentary on telecom regulation, mobile financial services, AI, and the digital economy."
+  path="/speaking"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'Speaking', href: '/speaking' },
+  ]}
+  jsonLd={jsonLd}
+>
+  <section class="page-x relative overflow-hidden pt-32 pb-20 md:pt-40 md:pb-28">
+    <div class="aurora opacity-60"></div>
+
+    <!-- Decorative dhaka image, partial -->
+    <img
+      src="/images/hero/dhaka.jpg"
+      alt=""
+      aria-hidden="true"
+      loading="eager"
+      decoding="async"
+      class="absolute inset-y-0 right-0 -z-10 hidden h-full w-1/2 object-cover opacity-15 md:block"
+    />
+    <div aria-hidden class="absolute inset-y-0 right-0 -z-10 hidden w-1/2 bg-gradient-to-r from-[var(--bg-base)] via-[var(--bg-base)]/70 to-transparent md:block"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+        <span class="pulse-dot"></span>
+        Speaking
+      </span>
+      <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+        Book Reyad to
+        <span class="font-serif italic text-gradient">speak, advise, or comment.</span>
+      </h1>
+      <p class="enter mt-8 max-w-2xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        Substantive engagement on telecom policy, the digital economy, mobile financial services, AI, and what Bangladesh has to do next. Available for keynotes, panels, fireside chats, executive briefings, and television commentary.
+      </p>
+      <div class="mt-10 flex flex-wrap gap-3">
+        <MagneticButton client:visible href="/contact" variant="primary" size="lg">
+          Request Reyad
+          <ArrowRight className="h-4 w-4" />
+        </MagneticButton>
+        <MagneticButton client:visible href="/media-kit" variant="secondary" size="lg">
+          Download bio + headshots
+        </MagneticButton>
+      </div>
+    </div>
+  </section>
+
+  <Section eyebrow="Formats" title="What works best.">
+    <div class="grid gap-6 md:grid-cols-3">
+      {formats.map((f) => {
+        const Icon = f.icon;
+        return (
+          <article class="glass border-gradient rounded-3xl p-8">
+            <div
+              class="grid h-12 w-12 place-items-center rounded-2xl"
+              style={`background: color-mix(in oklch, ${f.accent} 18%, transparent); color: ${f.accent};`}
+            >
+              <Icon className="h-5 w-5" />
+            </div>
+            <h3 class="mt-5 font-serif text-2xl italic">{f.title}</h3>
+            <p class="mt-3 leading-relaxed text-[var(--text-muted)]">{f.body}</p>
+          </article>
+        );
+      })}
+    </div>
+  </Section>
+
+  <Section eyebrow="Recent engagements" title="On the record.">
+    <SpeakingCardStack client:visible engagements={engagements} />
+  </Section>
+</BaseLayout>
