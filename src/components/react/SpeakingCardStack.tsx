@@ -13,12 +13,12 @@ export type Engagement = {
 };
 
 const ACCENT_BY_TYPE: Record<Engagement['type'], string> = {
-  keynote: 'var(--accent-cyan)',
+  keynote: 'var(--brand)',
   panel: 'var(--accent-gold)',
   workshop: 'var(--accent-emerald)',
   fireside: 'var(--accent-magenta)',
   tv: 'oklch(0.65 0.18 280)',
-  roundtable: 'var(--accent-cyan)',
+  roundtable: 'var(--brand)',
 };
 
 const formatDate = (iso: string) =>
@@ -52,8 +52,8 @@ export default function SpeakingCardStack({ engagements }: { engagements: Engage
               {e.type}
             </span>
             {e.upcoming && (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--accent-cyan)]/40 bg-[var(--accent-cyan-soft)] px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)]">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]" />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--brand)]/40 bg-[var(--brand-soft)] px-2.5 py-1 text-xs font-medium uppercase tracking-widest text-[var(--brand)]">
+                <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand)]" />
                 Upcoming
               </span>
             )}
@@ -72,7 +72,7 @@ export default function SpeakingCardStack({ engagements }: { engagements: Engage
           </div>
 
           <h3 className="font-serif text-3xl italic leading-tight">{e.title}</h3>
-          <span className="text-sm font-medium text-[var(--accent-cyan)]">{e.event}</span>
+          <span className="text-sm font-medium text-[var(--brand)]">{e.event}</span>
           <p className="text-pretty leading-relaxed text-[var(--text-muted)]">{e.summary}</p>
         </motion.li>
       ))}

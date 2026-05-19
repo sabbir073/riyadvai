@@ -66,3 +66,33 @@ const { name, className = '' } = Astro.props;
     <line x1="0" y1="38" x2="100" y2="38" stroke="currentColor" stroke-width="2"/>
   </svg>
 )}
+
+{name === 'Daily Independent' && (
+  <svg viewBox="0 0 240 38" xmlns="http://www.w3.org/2000/svg" class={className} aria-label="Daily Independent">
+    <text x="0" y="28" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="24" letter-spacing="-0.5" fill="currentColor">The </text>
+    <text x="48" y="28" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="24" letter-spacing="-0.5" fill="currentColor">Daily Independent</text>
+  </svg>
+)}
+
+{name === 'Daily Kalbela' && (
+  <svg viewBox="0 0 200 38" xmlns="http://www.w3.org/2000/svg" class={className} aria-label="Daily Kalbela">
+    <text x="0" y="28" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="24" letter-spacing="-0.5" fill="currentColor">Kalbela</text>
+    <text x="100" y="28" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="20" fill="currentColor">.com</text>
+  </svg>
+)}
+
+{name === 'Jago News' && (
+  <svg viewBox="0 0 200 42" xmlns="http://www.w3.org/2000/svg" class={className} aria-label="Jago News">
+    <rect x="0" y="6" width="60" height="32" rx="4" fill="currentColor"/>
+    <text x="6" y="29" font-family="Inter, system-ui, sans-serif" font-weight="900" font-size="18" fill="var(--bg-base, white)">JAGO</text>
+    <text x="70" y="29" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="22" letter-spacing="-0.5" fill="currentColor">News</text>
+    <text x="142" y="29" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="14" letter-spacing="0.5" fill="currentColor" opacity="0.7">24</text>
+  </svg>
+)}
+
+{name === 'Daily Ittefaq' && (
+  <svg viewBox="0 0 220 38" xmlns="http://www.w3.org/2000/svg" class={className} aria-label="Daily Ittefaq">
+    <text x="0" y="28" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="-1" fill="currentColor">The </text>
+    <text x="55" y="28" font-family="Georgia, 'Times New Roman', serif" font-weight="700" font-size="26" letter-spacing="-1" fill="currentColor">Daily Ittefaq</text>
+  </svg>
+)}

@@ -19,7 +19,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 const ACCENT_MAP = {
-  cyan: 'var(--accent-cyan)',
+  cyan: 'var(--brand)',
   gold: 'var(--accent-gold)',
   magenta: 'var(--accent-magenta)',
   emerald: 'var(--accent-emerald)',
@@ -43,6 +43,16 @@ export type Policy = {
   summary: string;
   points: string[];
   order: number;
+};
+
+// Thematic background images per policy priority — by enum.
+// These are decorative (alt=""), purely for visual interest in the right column.
+const POLICY_IMAGE: Record<Policy['accent'], string> = {
+  cyan: '/images/hero/fiber.jpg', // regulatory reform → infrastructure
+  emerald: '/images/hero/network.jpg', // digital inclusion → connectivity
+  gold: '/images/sections/conference.jpg', // youth skills → audience / training
+  magenta: '/images/hero/abstract-mesh.jpg', // AI/fintech → abstract tech
+  indigo: '/images/sections/board-meeting.jpg', // sovereignty → governance / boardroom
 };
 
 function PolicySection({ policy, index, total }: { policy: Policy; index: number; total: number }) {
@@ -120,21 +130,46 @@ function PolicySection({ policy, index, total }: { policy: Policy; index: number
           </div>
         </div>
 
-        {/* RIGHT (or LEFT) — Body + bullets */}
+        {/* RIGHT (or LEFT) — Body + bullets, with thematic image header */}
         <div className="lg:col-span-7">
-          <div className="glass border-gradient relative rounded-3xl p-7 md:p-10">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-30"
-              style={{
-                background: `radial-gradient(circle, ${accent}, transparent 65%)`,
-                filter: 'blur(40px)',
-              }}
-            />
+          <div className="glass border-gradient relative overflow-hidden rounded-3xl">
+            {/* Thematic image strip */}
+            <div className="relative h-32 w-full overflow-hidden md:h-40">
+              <img
+                src={POLICY_IMAGE[policy.accent]}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                className="h-full w-full object-cover"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(180deg, transparent 0%, var(--bg-elevated) 100%), linear-gradient(135deg, ${accentSoft}, transparent)`,
+                  mixBlendMode: 'multiply',
+                }}
+              />
+              <div
+                aria-hidden
+                className="absolute inset-x-0 bottom-0 h-1"
+                style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }}
+              />
+            </div>
 
-            <p className="text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
-              {policy.summary}
-            </p>
+            <div className="relative p-7 md:p-10">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full opacity-30"
+                style={{
+                  background: `radial-gradient(circle, ${accent}, transparent 65%)`,
+                  filter: 'blur(40px)',
+                }}
+              />
+
+              <p className="text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+                {policy.summary}
+              </p>
 
             <ul className="mt-8 grid gap-3 border-t border-[var(--border-hair)] pt-7">
               {policy.points.map((p, i) => (
@@ -157,14 +192,15 @@ function PolicySection({ policy, index, total }: { policy: Policy; index: number
               ))}
             </ul>
 
-            <a
-              href="/contact"
-              className="group/cta mt-8 inline-flex items-center gap-1.5 self-start text-sm font-medium transition-all hover:gap-2"
-              style={{ color: accent }}
-            >
-              Discuss this priority with Reyad
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
-            </a>
+              <a
+                href="/contact"
+                className="group/cta mt-8 inline-flex items-center gap-1.5 self-start text-sm font-medium transition-all hover:gap-2"
+                style={{ color: accent }}
+              >
+                Discuss this priority with Reyad
+                <ArrowUpRight className="h-4 w-4 transition-transform group-hover/cta:-translate-y-0.5 group-hover/cta:translate-x-0.5" />
+              </a>
+            </div>
           </div>
         </div>
       </div>

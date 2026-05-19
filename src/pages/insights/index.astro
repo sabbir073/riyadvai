@@ -22,15 +22,15 @@ const posts = (await getCollection('insights', ({ data }) => !data.draft))
     <div class="aurora opacity-50"></div>
 
     <div class="relative mx-auto max-w-7xl">
-      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
-        <span class="h-1.5 w-1.5 rounded-full bg-[var(--accent-cyan)]"></span>
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--brand)] backdrop-blur">
+        <span class="h-1.5 w-1.5 rounded-full bg-[var(--brand)]"></span>
         Insights
       </span>
       <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
         Long-form. <span class="font-serif italic text-gradient">First-person.</span>
       </h1>
       <p class="enter mt-8 max-w-3xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
-        Where the op-ed page runs out of room — essays, follow-ups, technical detail, and the cross-disciplinary work that doesn't fit anywhere else. Subscribe to the <a href="/rss.xml" class="text-[var(--accent-cyan)] underline-offset-4 hover:underline">RSS feed</a>.
+        Where the op-ed page runs out of room — essays, follow-ups, technical detail, and the cross-disciplinary work that doesn't fit anywhere else. Subscribe to the <a href="/rss.xml" class="text-[var(--brand)] underline-offset-4 hover:underline">RSS feed</a>.
       </p>
     </div>
   </section>
@@ -65,7 +65,7 @@ const posts = (await getCollection('insights', ({ data }) => !data.draft))
 
                 <h3
                   class:list={[
-                    'font-serif italic leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent-cyan)]',
+                    'font-serif italic leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[var(--brand)]',
                     featured ? 'text-4xl md:text-6xl' : 'text-2xl md:text-3xl',
                   ]}
                 >
@@ -85,7 +85,7 @@ const posts = (await getCollection('insights', ({ data }) => !data.draft))
                   </div>
                 )}
 
-                <span class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--text-muted)] transition-all group-hover:translate-x-0.5 group-hover:text-[var(--accent-cyan)]">
+                <span class="mt-auto inline-flex items-center gap-1 pt-4 text-sm font-medium text-[var(--text-muted)] transition-all group-hover:translate-x-0.5 group-hover:text-[var(--brand)]">
                   Read essay
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>

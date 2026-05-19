@@ -9,7 +9,7 @@ export type Chapter = {
 };
 
 const ACCENT: Record<Chapter['accent'], string> = {
-  cyan: 'var(--accent-cyan)',
+  cyan: 'var(--brand)',
   gold: 'var(--accent-gold)',
   magenta: 'var(--accent-magenta)',
   emerald: 'var(--accent-emerald)',

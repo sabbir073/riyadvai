@@ -42,7 +42,7 @@ export default function ThemeToggle() {
     >
       <Moon
         aria-hidden
-        className="absolute h-4 w-4 text-[var(--accent-cyan)] transition-all duration-300"
+        className="absolute h-4 w-4 text-[var(--brand)] transition-all duration-300"
         style={{
           opacity: isDark ? 1 : 0,
           transform: isDark ? 'rotate(0) scale(1)' : 'rotate(-90deg) scale(0.4)',

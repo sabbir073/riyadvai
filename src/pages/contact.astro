@@ -20,7 +20,7 @@ import { PERSON } from '~/data/site';
     <div class="relative mx-auto max-w-6xl">
       <div class="grid gap-12 md:grid-cols-12">
         <div class="md:col-span-5">
-          <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)] backdrop-blur">
+          <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--brand)] backdrop-blur">
             <span class="pulse-dot"></span>
             Contact
           </span>
@@ -39,14 +39,14 @@ import { PERSON } from '~/data/site';
                 href={`mailto:${PERSON.email}`}
                 class="glass border-gradient group flex items-center gap-4 rounded-2xl p-4 transition-transform hover:-translate-y-0.5"
               >
-                <span class="grid h-12 w-12 place-items-center rounded-xl bg-[var(--accent-cyan-soft)] text-[var(--accent-cyan)]">
+                <span class="grid h-12 w-12 place-items-center rounded-xl bg-[var(--brand-soft)] text-[var(--brand)]">
                   <Mail className="h-5 w-5" />
                 </span>
                 <span class="flex flex-col">
                   <span class="text-xs uppercase tracking-widest text-[var(--text-faint)]">
                     Email
                   </span>
-                  <span class="font-medium text-[var(--text-primary)] group-hover:text-[var(--accent-cyan)]">
+                  <span class="font-medium text-[var(--text-primary)] group-hover:text-[var(--brand)]">
                     {PERSON.email}
                   </span>
                 </span>

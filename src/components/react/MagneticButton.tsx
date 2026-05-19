@@ -18,10 +18,10 @@ type Props = {
 
 const variantClass: Record<Variant, string> = {
   primary:
-    'bg-[var(--accent-cyan)] text-[var(--bg-base)] shadow-[0_10px_40px_-10px_var(--accent-cyan)] hover:shadow-[0_20px_50px_-10px_var(--accent-cyan)]',
+    'bg-[var(--brand)] text-white shadow-[0_10px_40px_-10px_var(--brand)] hover:shadow-[0_20px_50px_-10px_var(--brand)]',
   secondary:
-    'border border-[var(--border-hair)] bg-[var(--bg-glass)] text-[var(--text-primary)] backdrop-blur hover:border-[var(--border-bright)] hover:bg-[var(--bg-elevated)]',
-  ghost: 'text-[var(--text-primary)] hover:text-[var(--accent-cyan)]',
+    'border border-[var(--border-hair)] bg-[var(--bg-glass)] text-[var(--text-primary)] backdrop-blur hover:border-[var(--brand)] hover:bg-[var(--bg-elevated)]',
+  ghost: 'text-[var(--text-primary)] hover:text-[var(--brand)]',
 };
 
 const sizeClass: Record<Size, string> = {

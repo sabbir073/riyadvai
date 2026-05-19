@@ -22,7 +22,7 @@ export default function ExperienceTimeline({ roles }: { roles: Role[] }) {
       {/* Vertical track */}
       <div
         aria-hidden
-        className="absolute bottom-0 left-[7.5rem] top-0 hidden w-px bg-gradient-to-b from-[var(--accent-cyan)] via-[var(--border-hair)] to-transparent md:block"
+        className="absolute bottom-0 left-[7.5rem] top-0 hidden w-px bg-gradient-to-b from-[var(--brand)] via-[var(--border-hair)] to-transparent md:block"
       />
 
       <ul className="flex flex-col gap-4">
@@ -46,7 +46,7 @@ export default function ExperienceTimeline({ roles }: { roles: Role[] }) {
                   className={cn(
                     'mt-1.5 hidden h-3 w-3 rounded-full transition-all md:block',
                     isOpen
-                      ? 'bg-[var(--accent-cyan)] shadow-[0_0_30px_var(--accent-cyan)]'
+                      ? 'bg-[var(--brand)] shadow-[0_0_30px_var(--brand)]'
                       : 'bg-[var(--bg-elevated)] ring-1 ring-[var(--border-hair)]',
                   )}
                 />
@@ -60,7 +60,7 @@ export default function ExperienceTimeline({ roles }: { roles: Role[] }) {
               >
                 <header className="flex flex-wrap items-start justify-between gap-4">
                   <div className="flex flex-col gap-1">
-                    <span className="text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)]">
+                    <span className="text-xs font-medium uppercase tracking-widest text-[var(--brand)]">
                       {r.role}
                     </span>
                     <h3 className="font-serif text-3xl italic leading-tight text-[var(--text-primary)] md:text-4xl">
@@ -80,7 +80,7 @@ export default function ExperienceTimeline({ roles }: { roles: Role[] }) {
                     onClick={() => setOpen(isOpen ? null : r.slug)}
                     aria-expanded={isOpen}
                     aria-label={isOpen ? `Collapse ${r.company}` : `Expand ${r.company}`}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] backdrop-blur transition hover:border-[var(--accent-cyan)] hover:text-[var(--accent-cyan)]"
+                    className="grid h-10 w-10 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] backdrop-blur transition hover:border-[var(--brand)] hover:text-[var(--brand)]"
                   >
                     {isOpen ? <Minus className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
                   </button>

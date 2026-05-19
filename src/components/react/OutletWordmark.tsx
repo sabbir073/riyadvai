@@ -125,6 +125,36 @@ export default function OutletWordmark({ name, className, style }: Props) {
           <line x1={0} y1={38} x2={100} y2={38} stroke="currentColor" strokeWidth={2} />
         </svg>
       );
+    case 'Daily Independent':
+      return (
+        <svg viewBox="0 0 240 38" xmlns="http://www.w3.org/2000/svg" aria-label="Daily Independent" {...common}>
+          <text x={0} y={28} fontFamily="Georgia, 'Times New Roman', serif" fontWeight={700} fontSize={24} letterSpacing={-0.5} fill="currentColor">The </text>
+          <text x={48} y={28} fontFamily="Georgia, 'Times New Roman', serif" fontWeight={700} fontSize={24} letterSpacing={-0.5} fill="currentColor">Daily Independent</text>
+        </svg>
+      );
+    case 'Daily Kalbela':
+      return (
+        <svg viewBox="0 0 200 38" xmlns="http://www.w3.org/2000/svg" aria-label="Daily Kalbela" {...common}>
+          <text x={0} y={28} fontFamily="Inter, system-ui, sans-serif" fontWeight={800} fontSize={24} letterSpacing={-0.5} fill="currentColor">Kalbela</text>
+          <text x={100} y={28} fontFamily="Georgia, 'Times New Roman', serif" fontStyle="italic" fontSize={20} fill="currentColor">.com</text>
+        </svg>
+      );
+    case 'Jago News':
+      return (
+        <svg viewBox="0 0 200 42" xmlns="http://www.w3.org/2000/svg" aria-label="Jago News" {...common}>
+          <rect x={0} y={6} width={60} height={32} rx={4} fill="currentColor" />
+          <text x={6} y={29} fontFamily="Inter, system-ui, sans-serif" fontWeight={900} fontSize={18} fill="var(--bg-base, white)">JAGO</text>
+          <text x={70} y={29} fontFamily="Inter, system-ui, sans-serif" fontWeight={800} fontSize={22} letterSpacing={-0.5} fill="currentColor">News</text>
+          <text x={142} y={29} fontFamily="Inter, system-ui, sans-serif" fontWeight={400} fontSize={14} letterSpacing={0.5} fill="currentColor" opacity={0.7}>24</text>
+        </svg>
+      );
+    case 'Daily Ittefaq':
+      return (
+        <svg viewBox="0 0 220 38" xmlns="http://www.w3.org/2000/svg" aria-label="Daily Ittefaq" {...common}>
+          <text x={0} y={28} fontFamily="Georgia, 'Times New Roman', serif" fontWeight={700} fontSize={26} letterSpacing={-1} fill="currentColor">The </text>
+          <text x={55} y={28} fontFamily="Georgia, 'Times New Roman', serif" fontWeight={700} fontSize={26} letterSpacing={-1} fill="currentColor">Daily Ittefaq</text>
+        </svg>
+      );
     default:
       return (
         <span

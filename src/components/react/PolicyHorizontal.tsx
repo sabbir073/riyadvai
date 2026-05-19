@@ -11,7 +11,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 const ACCENT_MAP = {
-  cyan: 'var(--accent-cyan)',
+  cyan: 'var(--brand)',
   gold: 'var(--accent-gold)',
   magenta: 'var(--accent-magenta)',
   emerald: 'var(--accent-emerald)',

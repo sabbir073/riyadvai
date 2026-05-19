@@ -7,6 +7,8 @@
   --color-bg: var(--bg-base);
   --color-elevated: var(--bg-elevated);
   --color-glass: var(--bg-glass);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
   --color-cyan: var(--accent-cyan);
   --color-gold: var(--accent-gold);
   --color-magenta: var(--accent-magenta);
@@ -29,7 +31,7 @@
   /* Radii, shadows, blur */
   --radius-card: 1.25rem;
   --radius-pill: 999px;
-  --shadow-glow: 0 0 60px -15px var(--accent-cyan);
+  --shadow-glow: 0 0 60px -15px var(--brand);
   --shadow-card: 0 25px 50px -12px rgb(0 0 0 / 0.6);
 
   /* Animation timing */
@@ -73,12 +75,12 @@
   }
 
   ::selection {
-    background: color-mix(in oklch, var(--accent-cyan) 35%, transparent);
+    background: color-mix(in srgb, var(--brand) 40%, transparent);
     color: var(--text-primary);
   }
 
   :focus-visible {
-    outline: 2px solid var(--accent-cyan);
+    outline: 2px solid var(--brand);
     outline-offset: 3px;
     border-radius: 4px;
   }
@@ -190,7 +192,7 @@
     padding: 1px;
     background: linear-gradient(
       135deg,
-      color-mix(in oklch, var(--accent-cyan) 60%, transparent),
+      color-mix(in srgb, var(--brand) 60%, transparent),
       transparent 40%,
       color-mix(in oklch, var(--accent-gold) 50%, transparent)
     );
@@ -211,7 +213,7 @@
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 999px;
-    background: var(--accent-cyan);
+    background: var(--brand);
   }
 
   .pulse-dot::after {
@@ -234,13 +236,14 @@
     }
   }
 
-  /* Aurora background (for hero / fallback) */
+  /* Aurora background (for hero / fallback) — leads with brand orange,
+     gold + magenta as secondary glow stops for visual depth. */
   .aurora {
     position: absolute;
     inset: 0;
     background:
-      radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in oklch, var(--accent-cyan) 18%, transparent), transparent 50%),
-      radial-gradient(ellipse 60% 50% at 80% 40%, color-mix(in oklch, var(--accent-gold) 12%, transparent), transparent 50%),
+      radial-gradient(ellipse 80% 50% at 50% -20%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 50%),
+      radial-gradient(ellipse 60% 50% at 80% 40%, color-mix(in oklch, var(--accent-gold) 14%, transparent), transparent 50%),
       radial-gradient(ellipse 60% 50% at 10% 70%, color-mix(in oklch, var(--accent-magenta) 14%, transparent), transparent 50%);
     filter: blur(60px);
     pointer-events: none;
@@ -263,7 +266,7 @@
     right: 0;
     height: 2px;
     transform-origin: 0 50%;
-    background: linear-gradient(90deg, var(--accent-cyan), var(--accent-gold));
+    background: var(--brand-gradient);
     z-index: 100;
   }
 
@@ -301,14 +304,9 @@
     grid-auto-rows: minmax(8rem, auto);
   }
 
-  /* Text gradient */
+  /* Text gradient — brand orange to warm cream, optimised for dark backgrounds. */
   .text-gradient {
-    background: linear-gradient(
-      135deg,
-      var(--text-primary) 0%,
-      var(--accent-cyan) 50%,
-      var(--accent-gold) 100%
-    );
+    background: var(--brand-gradient-text);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -322,7 +320,7 @@
     font-size: 5rem;
     line-height: 0.85;
     padding: 0.25rem 0.6rem 0 0;
-    color: var(--accent-gold);
+    color: var(--brand);
   }
 }
 

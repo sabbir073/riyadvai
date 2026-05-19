@@ -96,8 +96,8 @@ export default function ContactForm() {
                 type="submit"
                 disabled={status === 'sending'}
                 className={cn(
-                  'group inline-flex h-12 items-center gap-2 rounded-full bg-[var(--accent-cyan)] px-7 font-medium text-[var(--bg-base)] transition-shadow',
-                  'hover:shadow-[0_15px_40px_-10px_var(--accent-cyan)] disabled:opacity-70',
+                  'group inline-flex h-12 items-center gap-2 rounded-full bg-[var(--brand)] px-7 font-medium text-[var(--bg-base)] transition-shadow',
+                  'hover:shadow-[0_15px_40px_-10px_var(--brand)] disabled:opacity-70',
                 )}
               >
                 {status === 'sending' ? (
@@ -144,7 +144,7 @@ export default function ContactForm() {
             <button
               type="button"
               onClick={() => setStatus('idle')}
-              className="text-sm text-[var(--accent-cyan)] underline-offset-4 hover:underline"
+              className="text-sm text-[var(--brand)] underline-offset-4 hover:underline"
             >
               Send another message
             </button>
@@ -177,7 +177,7 @@ function Field({
         placeholder=" "
         className={cn(
           'peer h-14 w-full rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-glass)] px-4 pt-4 text-base text-[var(--text-primary)] backdrop-blur transition-colors',
-          'focus:border-[var(--accent-cyan)] focus:bg-[var(--bg-elevated)]',
+          'focus:border-[var(--brand)] focus:bg-[var(--bg-elevated)]',
         )}
         {...rest}
       />
@@ -185,12 +185,12 @@ function Field({
         htmlFor={name}
         className={cn(
           'pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-sm text-[var(--text-muted)] transition-all',
-          'peer-focus:top-3 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-[var(--accent-cyan)]',
+          'peer-focus:top-3 peer-focus:translate-y-0 peer-focus:text-xs peer-focus:text-[var(--brand)]',
           'peer-[:not(:placeholder-shown)]:top-3 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:text-xs',
         )}
       >
         {label}
-        {required && <span className="ml-1 text-[var(--accent-cyan)]">*</span>}
+        {required && <span className="ml-1 text-[var(--brand)]">*</span>}
       </label>
     </div>
   );
@@ -223,19 +223,19 @@ function TextareaField({
         onChange={(e) => setCount(e.target.value.length)}
         className={cn(
           'peer min-h-[10rem] w-full resize-y rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-glass)] px-4 pb-4 pt-7 text-base text-[var(--text-primary)] backdrop-blur transition-colors',
-          'focus:border-[var(--accent-cyan)] focus:bg-[var(--bg-elevated)]',
+          'focus:border-[var(--brand)] focus:bg-[var(--bg-elevated)]',
         )}
       />
       <label
         htmlFor={name}
         className={cn(
           'pointer-events-none absolute left-4 top-4 text-sm text-[var(--text-muted)] transition-all',
-          'peer-focus:top-2.5 peer-focus:text-xs peer-focus:text-[var(--accent-cyan)]',
+          'peer-focus:top-2.5 peer-focus:text-xs peer-focus:text-[var(--brand)]',
           'peer-[:not(:placeholder-shown)]:top-2.5 peer-[:not(:placeholder-shown)]:text-xs',
         )}
       >
         {label}
-        {required && <span className="ml-1 text-[var(--accent-cyan)]">*</span>}
+        {required && <span className="ml-1 text-[var(--brand)]">*</span>}
       </label>
       {maxLength && (
         <span className="pointer-events-none absolute bottom-3 right-4 font-mono text-[10px] text-[var(--text-faint)]">
@@ -257,7 +257,7 @@ function SelectField({
 }) {
   return (
     <div className="relative">
-      <label htmlFor={name} className="mb-2 block text-xs font-medium uppercase tracking-widest text-[var(--accent-cyan)]">
+      <label htmlFor={name} className="mb-2 block text-xs font-medium uppercase tracking-widest text-[var(--brand)]">
         {label}
       </label>
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -274,7 +274,7 @@ function SelectField({
               className="peer sr-only"
             />
             <span
-              className="flex h-full items-center justify-center rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-3 text-center text-sm text-[var(--text-muted)] backdrop-blur transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)] peer-checked:border-[var(--accent-cyan)] peer-checked:bg-[var(--accent-cyan-soft)] peer-checked:text-[var(--text-primary)] peer-checked:shadow-[0_0_30px_-10px_var(--accent-cyan)]"
+              className="flex h-full items-center justify-center rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-3 text-center text-sm text-[var(--text-muted)] backdrop-blur transition-all hover:border-[var(--border-bright)] hover:text-[var(--text-primary)] peer-checked:border-[var(--brand)] peer-checked:bg-[var(--brand-soft)] peer-checked:text-[var(--text-primary)] peer-checked:shadow-[0_0_30px_-10px_var(--brand)]"
             >
               {opt.label}
             </span>

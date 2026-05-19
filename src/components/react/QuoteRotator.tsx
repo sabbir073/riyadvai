@@ -27,12 +27,12 @@ export default function QuoteRotator({ quotes, intervalMs = 7000 }: { quotes: Qu
           className="absolute inset-0"
         >
           <blockquote className="font-serif text-balance text-3xl italic leading-tight text-[var(--text-primary)] md:text-5xl">
-            <span aria-hidden className="mr-1 text-[var(--accent-cyan)]">“</span>
+            <span aria-hidden className="mr-1 text-[var(--brand)]">“</span>
             {q.quote}
-            <span aria-hidden className="ml-1 text-[var(--accent-cyan)]">”</span>
+            <span aria-hidden className="ml-1 text-[var(--brand)]">”</span>
           </blockquote>
           <figcaption className="mt-6 flex items-center gap-3 text-sm text-[var(--text-muted)]">
-            <span className="h-px w-8 bg-[var(--accent-cyan)]" />
+            <span className="h-px w-8 bg-[var(--brand)]" />
             <span className="font-medium text-[var(--text-primary)]">{q.source}</span>
             {q.context && <span className="text-[var(--text-faint)]">— {q.context}</span>}
           </figcaption>
@@ -49,7 +49,7 @@ export default function QuoteRotator({ quotes, intervalMs = 7000 }: { quotes: Qu
             className="h-1 w-8 overflow-hidden rounded-full bg-[var(--border-hair)]"
           >
             <span
-              className="block h-full bg-[var(--accent-cyan)] transition-all duration-300"
+              className="block h-full bg-[var(--brand)] transition-all duration-300"
               style={{ width: idx === i ? '100%' : '0%' }}
             />
           </button>

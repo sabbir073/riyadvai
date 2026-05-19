@@ -86,4 +86,20 @@ const speaking = defineCollection({
   }),
 });
 
-export const collections = { opEds, tv, experience, policies, insights, speaking };
+// Press coverage / news about Smart Lab and Reyad — articles by journalists,
+// NOT pieces Reyad authored. Lives separately from `opEds`.
+const news = defineCollection({
+  loader: glob({ pattern: '**/*.mdx', base: './src/content/news' }),
+  schema: z.object({
+    title: z.string(),
+    outlet: z.string(),
+    publishedAt: z.coerce.date(),
+    teaser: z.string(),
+    externalUrl: z.string().url(),
+    image: z.string().optional(),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+  }),
+});
+
+export const collections = { opEds, tv, experience, policies, insights, speaking, news };

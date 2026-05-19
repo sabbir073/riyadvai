@@ -35,8 +35,8 @@ const PILLARS: Pillar[] = [
     ],
     href: '/policy',
     cta: 'See the five priorities',
-    accent: 'var(--accent-cyan)',
-    accentSoft: 'var(--accent-cyan-soft)',
+    accent: 'var(--brand)',
+    accentSoft: 'var(--brand-soft)',
     image: '/images/hero/network.jpg',
   },
   {
