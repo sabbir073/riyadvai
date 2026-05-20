@@ -58,6 +58,7 @@ export const STATS = [
 ] as const;
 
 export const NAV = [
+  { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Experience', href: '/experience' },
   { label: 'Policy', href: '/policy' },
