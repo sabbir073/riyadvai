@@ -71,7 +71,7 @@ const faqs = [
   },
 ];
 
-const headshot = '/images/riyadvai.jpg';
+const headshot = '/images/riyadvai.webp';
 ---
 
 <BaseLayout
@@ -127,7 +127,10 @@ const headshot = '/images/riyadvai.jpg';
             <img
               src={headshot}
               alt={`Portrait of ${PERSON.fullName}`}
+              width="800"
+              height="1000"
               loading="eager"
+              fetchpriority="high"
               decoding="async"
               class="h-full w-full object-cover"
               transition:name="reyad-headshot"

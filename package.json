@@ -11,7 +11,8 @@
     "preview": "astro preview --host",
     "astro": "astro",
     "check": "astro check",
-    "format": "prettier --write \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json}\""
+    "format": "prettier --write \"**/*.{astro,ts,tsx,js,jsx,md,mdx,css,json}\"",
+    "images:optimize": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",

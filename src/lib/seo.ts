@@ -16,7 +16,7 @@ export const personSchema = () => ({
   url: SITE.url,
   email: `mailto:${PERSON.email}`,
   telephone: PERSON.phone,
-  image: absolute('/images/riyadvai.jpg'),
+  image: absolute('/images/riyadvai.webp'),
   address: {
     '@type': 'PostalAddress',
     addressLocality: PERSON.city,

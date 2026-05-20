@@ -7,6 +7,7 @@ import {
   ArrowUpRight,
   type LucideIcon,
 } from 'lucide-react';
+import Image from './Image';
 
 type Pillar = {
   icon: LucideIcon;
@@ -37,7 +38,7 @@ const PILLARS: Pillar[] = [
     cta: 'See the five priorities',
     accent: 'var(--brand)',
     accentSoft: 'var(--brand-soft)',
-    image: '/images/hero/network.jpg',
+    image: '/images/hero/network.webp',
   },
   {
     icon: Network,
@@ -54,7 +55,7 @@ const PILLARS: Pillar[] = [
     cta: 'Read the career timeline',
     accent: 'var(--accent-gold)',
     accentSoft: 'var(--accent-gold-soft)',
-    image: '/images/hero/fiber.jpg',
+    image: '/images/hero/fiber.webp',
   },
   {
     icon: Mic,
@@ -71,7 +72,7 @@ const PILLARS: Pillar[] = [
     cta: 'See the writing & TV',
     accent: 'var(--accent-magenta)',
     accentSoft: 'oklch(0.7 0.22 340 / 0.18)',
-    image: '/images/hero/abstract-mesh.jpg',
+    image: '/images/hero/abstract-mesh.webp',
   },
 ];
 
@@ -107,7 +108,7 @@ function PillarCard({ pillar, index }: { pillar: Pillar; index: number }) {
         aria-hidden
         className="pointer-events-none absolute right-0 top-0 h-32 w-32 overflow-hidden rounded-bl-[3rem] opacity-30"
       >
-        <img src={pillar.image} alt="" className="h-full w-full object-cover" />
+        <Image src={pillar.image} alt="" width={256} height={256} className="h-full w-full object-cover" />
         <div
           className="absolute inset-0"
           style={{

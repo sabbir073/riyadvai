@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ArrowUpRight, Newspaper, Tv, Radio } from 'lucide-react';
 import { cn } from '~/lib/cn';
 import OutletWordmark from './OutletWordmark';
+import Image from './Image';
 
 export type ThoughtItem =
   | {
@@ -177,11 +178,12 @@ export default function FilterableThoughtGrid({ items }: { items: ThoughtItem[] 
 
                 {hasImage && (
                   <div className="relative aspect-[16/9] w-full overflow-hidden">
-                    <img
-                      src={item.image}
+                    <Image
+                      src={item.image!}
                       alt=""
-                      loading="lazy"
-                      decoding="async"
+                      width={800}
+                      height={450}
+                      sizes="(min-width:1024px) 33vw, (min-width:768px) 50vw, 100vw"
                       className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                     <div

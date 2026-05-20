@@ -9,6 +9,7 @@ import {
   Sparkles,
   type LucideIcon,
 } from 'lucide-react';
+import Image from './Image';
 
 const ICON_MAP: Record<string, LucideIcon> = {
   scale: Scale,
@@ -48,11 +49,11 @@ export type Policy = {
 // Thematic background images per policy priority — by enum.
 // These are decorative (alt=""), purely for visual interest in the right column.
 const POLICY_IMAGE: Record<Policy['accent'], string> = {
-  cyan: '/images/hero/fiber.jpg', // regulatory reform → infrastructure
-  emerald: '/images/hero/network.jpg', // digital inclusion → connectivity
-  gold: '/images/sections/conference.jpg', // youth skills → audience / training
-  magenta: '/images/hero/abstract-mesh.jpg', // AI/fintech → abstract tech
-  indigo: '/images/sections/board-meeting.jpg', // sovereignty → governance / boardroom
+  cyan: '/images/hero/fiber.webp', // regulatory reform → infrastructure
+  emerald: '/images/hero/network.webp', // digital inclusion → connectivity
+  gold: '/images/sections/conference.webp', // youth skills → audience / training
+  magenta: '/images/hero/abstract-mesh.webp', // AI/fintech → abstract tech
+  indigo: '/images/sections/board-meeting.webp', // sovereignty → governance / boardroom
 };
 
 function PolicySection({ policy, index, total }: { policy: Policy; index: number; total: number }) {
@@ -135,11 +136,11 @@ function PolicySection({ policy, index, total }: { policy: Policy; index: number
           <div className="glass border-gradient relative overflow-hidden rounded-3xl">
             {/* Thematic image strip */}
             <div className="relative h-32 w-full overflow-hidden md:h-40">
-              <img
+              <Image
                 src={POLICY_IMAGE[policy.accent]}
                 alt=""
-                loading="lazy"
-                decoding="async"
+                width={800}
+                height={200}
                 className="h-full w-full object-cover"
               />
               <div

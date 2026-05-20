@@ -86,16 +86,24 @@ export default function QuoteRotator({
                 aria-selected={active}
                 onClick={() => setI(idx)}
                 aria-label={`Show quote ${idx + 1} of ${quotes.length}`}
-                className="group relative h-2 overflow-hidden rounded-full bg-[var(--border-hair)] transition-all"
-                style={{ width: active ? '3rem' : '0.75rem' }}
+                /* 44×44 hit area for accessibility, with a smaller visible dot inside.
+                   Lighthouse / WCAG 2.5.5 want at least 44px square for touch targets. */
+                className="group relative grid h-11 place-items-center overflow-visible bg-transparent transition-all"
+                style={{ width: active ? '3.75rem' : '1.75rem' }}
               >
                 <span
-                  className="absolute inset-0 origin-left bg-[var(--brand)] transition-transform"
-                  style={{
-                    transform: active ? 'scaleX(1)' : 'scaleX(0)',
-                    transformOrigin: 'left center',
-                  }}
-                />
+                  aria-hidden
+                  className="block h-2 overflow-hidden rounded-full bg-[var(--border-hair)] transition-all"
+                  style={{ width: active ? '3rem' : '0.75rem' }}
+                >
+                  <span
+                    className="block h-full origin-left bg-[var(--brand)] transition-transform"
+                    style={{
+                      transform: active ? 'scaleX(1)' : 'scaleX(0)',
+                      transformOrigin: 'left center',
+                    }}
+                  />
+                </span>
               </button>
             );
           })}

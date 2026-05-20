@@ -18,8 +18,6 @@ const parseNumeric = (raw: string) => {
 export default function StatCounter({ value, label, sub, duration = 1.6 }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const parsed = parseNumeric(value);
-  // Initialise to the final value so SSR + initial render show the real number
-  // instead of a flash of 0. The animation only kicks in once visible.
   const [n, setN] = useState<number>(parsed?.num ?? 0);
   const [animated, setAnimated] = useState(false);
 
@@ -54,11 +52,25 @@ export default function StatCounter({ value, label, sub, duration = 1.6 }: Props
     ? `${parsed.prefix}${parsed.num >= 100 ? Math.round(n).toLocaleString() : n.toFixed(1).replace(/\.0$/, '')}${parsed.suffix}`
     : value;
 
+  // Reserve container width based on the FINAL value's character count so the
+  // count-up animation never reflows surrounding content. `ch` units approximate
+  // the width of a tabular-numeric digit at the current font-size.
+  const reservedCh = Math.max(value.length, formatted.length);
+
   return (
     <div ref={ref} className="flex flex-col gap-1.5">
       <div
         className="font-mono text-3xl font-semibold tracking-tight text-[var(--text-primary)] md:text-4xl lg:text-5xl"
-        style={{ fontFeatureSettings: '"tnum" 1' }}
+        style={{
+          fontFeatureSettings: '"tnum" 1',
+          fontVariantNumeric: 'tabular-nums',
+          // Reserve at least the width the final value will occupy.
+          minWidth: `${reservedCh}ch`,
+          // Use a placeholder of the same final string for layout, but render
+          // the live value visibly. The browser uses this for intrinsic sizing.
+          minHeight: '1em',
+        }}
+        aria-label={value}
       >
         {formatted}
       </div>

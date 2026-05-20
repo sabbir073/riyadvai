@@ -143,7 +143,13 @@
     filter: blur(80px);
     opacity: 0.5;
     animation: float 22s ease-in-out infinite;
-    will-change: transform;
+    /* GPU-layer the blob so its keyframe transforms never trigger paint or
+       layout on the rest of the section. Kills the CLS attribution Lighthouse
+       was previously flagging on .hero-blob. */
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: layout paint;
   }
 
   .hero-blob--1 {

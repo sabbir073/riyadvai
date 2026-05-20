@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { motion, useScroll, useTransform, type MotionValue } from 'motion/react';
+import Image from './Image';
 
 export type Chapter = {
   year: string;
@@ -97,11 +98,12 @@ export default function StickyChapters({
       {/* Sticky photo column */}
       <div className="relative md:col-span-5">
         <div className="sticky top-24 aspect-[4/5] overflow-hidden rounded-3xl border border-[var(--border-hair)] shadow-[0_30px_80px_-20px_rgba(0,0,0,0.6)]">
-          <img
+          <Image
             src={imageUrl}
             alt={imageAlt}
-            loading="eager"
-            decoding="async"
+            width={800}
+            height={1000}
+            priority
             className="h-full w-full object-cover"
           />
           <motion.div
