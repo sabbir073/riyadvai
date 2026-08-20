@@ -60,8 +60,7 @@ export const STATS = [
 export const NAV = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'Experience', href: '/experience' },
-  { label: 'News', href: '/news' },
+  { label: 'Media Coverage', href: '/news' },
   { label: 'TV Interviews', href: '/tv-interviews' },
 ] as const;
 

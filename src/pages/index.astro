@@ -77,8 +77,6 @@ const tvVideos = tvEntries.map((e) => ({
           <div class="fade-up inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-[var(--brand)] backdrop-blur-md" style="--d:0s">
             <span class="pulse-dot"></span>
             <span>ICT Policy Advocate</span>
-            <span class="text-[var(--text-faint)]">·</span>
-            <span class="text-[var(--text-muted)]">Smart Lab Bangladesh</span>
           </div>
 
           <!-- Headline — flips in word by word -->
@@ -267,7 +265,7 @@ const tvVideos = tvEntries.map((e) => ({
     title="TV interviews & commentary."
     intro="Television interviews and on-the-record commentary — on telecom, mobile financial services, AI, and Bangladesh's digital economy. Press play to watch right here."
   >
-    <VideoGallery client:visible items={tvVideos} />
+    <VideoGallery client:visible items={tvVideos} variant="slider" />
 
     <div class="mt-12 flex justify-center">
       <MagneticButton client:visible href="/tv-interviews" variant="secondary" size="lg">

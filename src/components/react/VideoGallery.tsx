@@ -8,6 +8,8 @@ import {
   Maximize,
   X,
   ArrowUpRight,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 
 export type VideoItem = {
@@ -65,7 +67,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Build the player
   useEffect(() => {
     let cancelled = false;
     let poll: ReturnType<typeof setInterval> | undefined;
@@ -76,7 +77,7 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
         videoId: item.videoId,
         playerVars: {
           autoplay: 1,
-          controls: 0,          // hide YouTube's own controls — we render ours
+          controls: 0,
           rel: 0,
           modestbranding: 1,
           playsinline: 1,
@@ -100,9 +101,9 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
           },
           onStateChange: (e: any) => {
             if (cancelled) return;
-            if (e.data === 1) setPlaying(true);        // playing
-            else if (e.data === 2) setPlaying(false);  // paused
-            else if (e.data === 0) setPlaying(false);  // ended
+            if (e.data === 1) setPlaying(true);
+            else if (e.data === 2) setPlaying(false);
+            else if (e.data === 0) setPlaying(false);
           },
         },
       });
@@ -118,7 +119,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
     };
   }, [item.videoId]);
 
-  // Esc to close + lock page scroll
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -175,7 +175,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
       aria-label={item.title}
       className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
     >
-      {/* Backdrop */}
       <button
         type="button"
         aria-label="Close video"
@@ -187,7 +186,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
         ref={shellRef}
         className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-[var(--border-hair)] bg-black shadow-2xl"
       >
-        {/* Close */}
         <button
           type="button"
           onClick={onClose}
@@ -197,7 +195,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
           <X className="h-4 w-4" />
         </button>
 
-        {/* Video (a transparent overlay blocks YouTube's own click UI; clicks toggle play) */}
         <div className="relative aspect-video w-full">
           <div ref={mountRef} className="absolute inset-0 h-full w-full [&>iframe]:h-full [&>iframe]:w-full" />
           <button
@@ -213,7 +210,6 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
           )}
         </div>
 
-        {/* Custom control bar */}
         <div className="relative z-20 flex flex-col gap-2 bg-black px-4 pb-3 pt-2">
           <input
             type="range"
@@ -271,7 +267,7 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
   );
 }
 
-/* ── Cards ─────────────────────────────────────────────────────────── */
+/* ── Card ──────────────────────────────────────────────────────────── */
 function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) => void }) {
   const isYouTube = Boolean(item.videoId);
   const thumb = item.videoId
@@ -286,19 +282,23 @@ function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) =
           alt=""
           loading="lazy"
           decoding="async"
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
       ) : (
         <span className="absolute inset-0 bg-[var(--bg-glass)]" />
       )}
-      <span className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-black/60 transition-colors group-hover:bg-[var(--brand)]">
+      <span
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+      />
+      <span className="absolute left-1/2 top-1/2 grid h-12 w-12 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-white/20 bg-black/60 backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--brand)] group-hover:shadow-[0_0_40px_-5px_var(--brand)]">
         <Play className="ml-0.5 h-5 w-5 fill-current text-white" />
       </span>
     </>
   );
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-elevated)]">
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-elevated)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand)]/50 hover:shadow-xl">
       <div className="relative aspect-video w-full overflow-hidden bg-[var(--bg-base)]">
         {isYouTube ? (
           <button
@@ -310,7 +310,6 @@ function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) =
             {media}
           </button>
         ) : (
-          /* Non-embeddable (e.g. Facebook reel) — link out */
           <a
             href={item.externalUrl}
             target="_blank"
@@ -347,16 +346,164 @@ function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) =
   );
 }
 
-export default function VideoGallery({ items }: { items: VideoItem[] }) {
+/* ── Auto-advancing slider: N visible, slides right → left every 2s ── */
+function VideoSlider({
+  items,
+  onOpen,
+  paused,
+}: {
+  items: VideoItem[];
+  onOpen: (v: VideoItem) => void;
+  paused: boolean;
+}) {
+  const [visible, setVisible] = useState(4);
+  const [idx, setIdx] = useState(0);
+  const [animate, setAnimate] = useState(true);
+  const [hover, setHover] = useState(false);
+
+  // Responsive visible count: 1 / 2 / 4.
+  useEffect(() => {
+    const compute = () =>
+      setVisible(window.innerWidth < 640 ? 1 : window.innerWidth < 1024 ? 2 : 4);
+    compute();
+    window.addEventListener('resize', compute);
+    return () => window.removeEventListener('resize', compute);
+  }, []);
+
+  // Clone the head so the loop wraps seamlessly.
+  const extended = [...items, ...items.slice(0, visible)];
+
+  // Advance one card every 2 seconds.
+  useEffect(() => {
+    if (paused || hover || items.length <= visible) return;
+    const id = setInterval(() => setIdx((i) => i + 1), 2000);
+    return () => clearInterval(id);
+  }, [paused, hover, items.length, visible]);
+
+  // After sliding onto the cloned head, snap back to the real start
+  // without animation — the loop appears endless.
+  const onTransitionEnd = () => {
+    if (idx >= items.length) {
+      setAnimate(false);
+      setIdx(idx - items.length);
+      requestAnimationFrame(() => requestAnimationFrame(() => setAnimate(true)));
+    }
+  };
+
+  const next = () => setIdx((i) => Math.min(i + 1, items.length));
+  const prev = () => {
+    if (idx > 0) {
+      setIdx(idx - 1);
+    } else {
+      // Jump to the wrapped end, then animate one step back.
+      setAnimate(false);
+      setIdx(items.length);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          setAnimate(true);
+          setIdx(items.length - 1);
+        }),
+      );
+    }
+  };
+
+  const step = 100 / visible;
+
+  return (
+    <div
+      className="group/slider relative"
+      onPointerEnter={() => setHover(true)}
+      onPointerLeave={() => setHover(false)}
+    >
+      {/* Soft edge fades */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 -left-1 z-10 w-10 bg-gradient-to-r from-[var(--bg-base)] to-transparent"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 -right-1 z-10 w-10 bg-gradient-to-l from-[var(--bg-base)] to-transparent"
+      />
+
+      {/* Track */}
+      <div className="overflow-hidden py-1">
+        <div
+          className="flex will-change-transform"
+          style={{
+            transform: `translateX(-${idx * step}%)`,
+            transition: animate ? 'transform 700ms cubic-bezier(0.16, 1, 0.3, 1)' : 'none',
+          }}
+          onTransitionEnd={onTransitionEnd}
+        >
+          {extended.map((item, i) => (
+            <div
+              key={`${item.slug}-${i}`}
+              className="shrink-0 px-2.5"
+              style={{ width: `${step}%` }}
+            >
+              <VideoCard item={item} onOpen={onOpen} />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Arrows — appear on hover */}
+      <button
+        type="button"
+        onClick={prev}
+        aria-label="Previous videos"
+        className="absolute -left-4 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-elevated)] text-[var(--text-primary)] opacity-0 shadow-xl transition-all hover:border-[var(--brand)] hover:text-[var(--brand)] group-hover/slider:opacity-100 md:-left-5"
+      >
+        <ChevronLeft className="h-5 w-5" />
+      </button>
+      <button
+        type="button"
+        onClick={next}
+        aria-label="Next videos"
+        className="absolute -right-4 top-1/2 z-20 grid h-11 w-11 -translate-y-1/2 place-items-center rounded-full border border-[var(--border-hair)] bg-[var(--bg-elevated)] text-[var(--text-primary)] opacity-0 shadow-xl transition-all hover:border-[var(--brand)] hover:text-[var(--brand)] group-hover/slider:opacity-100 md:-right-5"
+      >
+        <ChevronRight className="h-5 w-5" />
+      </button>
+
+      {/* Progress dots */}
+      <div className="mt-6 flex items-center justify-center gap-2">
+        {items.map((_, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className="h-1.5 rounded-full transition-all duration-500"
+            style={{
+              width: i === idx % items.length ? '1.5rem' : '0.375rem',
+              background:
+                i === idx % items.length ? 'var(--brand)' : 'var(--border-bright, rgba(128,128,128,0.35))',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function VideoGallery({
+  items,
+  variant = 'grid',
+}: {
+  items: VideoItem[];
+  variant?: 'grid' | 'slider';
+}) {
   const [active, setActive] = useState<VideoItem | null>(null);
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {items.map((item) => (
-          <VideoCard key={item.slug} item={item} onOpen={setActive} />
-        ))}
-      </div>
+      {variant === 'slider' ? (
+        <VideoSlider items={items} onOpen={setActive} paused={Boolean(active)} />
+      ) : (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((item) => (
+            <VideoCard key={item.slug} item={item} onOpen={setActive} />
+          ))}
+        </div>
+      )}
       {active && <PlayerModal item={active} onClose={() => setActive(null)} />}
     </>
   );
