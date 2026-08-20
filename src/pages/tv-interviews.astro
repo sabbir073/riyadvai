@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import VideoGallery from '~/components/react/VideoGallery';
+import { videoObjectSchema } from '~/lib/seo';
+
+const extractYouTubeId = (url: string) =>
+  url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/)?.[1];
+
+const entries = (await getCollection('tv')).sort(
+  (a, b) => b.data.airedAt.valueOf() - a.data.airedAt.valueOf(),
+);
+
+const videos = entries.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  network: e.data.network,
+  program: e.data.program,
+  externalUrl: e.data.externalUrl,
+  videoId: extractYouTubeId(e.data.externalUrl),
+}));
+
+const networks = [...new Set(entries.map((e) => e.data.network))];
+
+const jsonLd = entries.map((e) =>
+  videoObjectSchema({
+    name: e.data.title,
+    description: e.data.teaser,
+    uploadDate: e.data.airedAt,
+    duration: e.data.duration,
+    url: e.data.externalUrl,
+  }),
+);
+---
+
+<BaseLayout
+  title="TV Interviews"
+  description="Television interviews and on-the-record commentary by Reyad Hasnain — on telecom, mobile financial services, AI, and Bangladesh's digital economy."
+  path="/tv-interviews"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'TV Interviews', href: '/tv-interviews' },
+  ]}
+  jsonLd={jsonLd}
+>
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="page-x relative overflow-hidden pt-32 pb-16 md:pt-40">
+    <div class="aurora opacity-60"></div>
+
+    <div class="relative mx-auto max-w-7xl">
+      <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--brand)] backdrop-blur">
+        <span class="pulse-dot"></span>
+        On air
+      </span>
+      <h1 class="enter mt-6 max-w-4xl text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+        TV interviews &
+        <span class="font-serif italic text-gradient">commentary.</span>
+      </h1>
+      <p class="enter mt-8 max-w-2xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+        Television interviews and on-the-record commentary — on telecom, mobile financial services, AI, and Bangladesh's digital economy. Press play to watch right here.
+      </p>
+
+      <div class="enter mt-8 flex flex-wrap gap-2">
+        {networks.map((n) => (
+          <span class="rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs uppercase tracking-widest text-[var(--text-muted)]">
+            {n}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALLERY ──────────────────────────────────────────────────── -->
+  <Section eyebrow="All appearances">
+    <VideoGallery client:load items={videos} />
+  </Section>
+</BaseLayout>

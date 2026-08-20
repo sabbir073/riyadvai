@@ -24,6 +24,23 @@ type Pillar = {
 
 const PILLARS: Pillar[] = [
   {
+    icon: Mic,
+    eyebrow: 'Public voice',
+    title: 'The commentator the press calls.',
+    body:
+      "Op-eds in Bangladesh's leading dailies and regular policy commentary on national television. The voice editors and producers reach for when the question is telecom, MFS, AI, or the digital economy.",
+    bullets: [
+      'Op-Eds: The Daily Star, The Financial Express, Daily Sun, Dhaka Tribune.',
+      'Television: Channel 24, ETV, Independent TV, 71 TV.',
+      'Six published op-eds; two on-record TV interviews.',
+    ],
+    href: '/thought-leadership',
+    cta: 'See the writing & TV',
+    accent: 'var(--accent-magenta)',
+    accentSoft: 'oklch(0.7 0.22 340 / 0.18)',
+    image: '/images/hero/abstract-mesh.webp',
+  },
+  {
     icon: Scale,
     eyebrow: 'Policy',
     title: 'Reform that scales ICT exports.',
@@ -56,23 +73,6 @@ const PILLARS: Pillar[] = [
     accent: 'var(--accent-gold)',
     accentSoft: 'var(--accent-gold-soft)',
     image: '/images/hero/fiber.webp',
-  },
-  {
-    icon: Mic,
-    eyebrow: 'Public voice',
-    title: 'The commentator the press calls.',
-    body:
-      "Op-eds in Bangladesh's leading dailies and regular policy commentary on national television. The voice editors and producers reach for when the question is telecom, MFS, AI, or the digital economy.",
-    bullets: [
-      'Op-Eds: The Daily Star, The Financial Express, Daily Sun, Dhaka Tribune.',
-      'Television: Channel 24, ETV, Independent TV, 71 TV.',
-      'Six published op-eds; two on-record TV interviews.',
-    ],
-    href: '/thought-leadership',
-    cta: 'See the writing & TV',
-    accent: 'var(--accent-magenta)',
-    accentSoft: 'oklch(0.7 0.22 340 / 0.18)',
-    image: '/images/hero/abstract-mesh.webp',
   },
 ];
 

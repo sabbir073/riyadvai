@@ -11,6 +11,11 @@ const SITE = process.env.PUBLIC_SITE_URL ?? 'https://reyadhasnain.com';
 export default defineConfig({
   site: SITE,
 
+  // Old URLs → new structure (works in dev and in the static build).
+  redirects: {
+    '/thought-leadership': '/news',
+  },
+
   // Static-first: every page prerenders at build time. Only the contact API
   // route and the dynamic OG image route opt into SSR via `export const prerender = false`.
   output: 'static',

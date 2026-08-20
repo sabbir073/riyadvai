@@ -4,6 +4,7 @@ import { ArrowUpRight, Newspaper, Tv, Radio } from 'lucide-react';
 import { cn } from '~/lib/cn';
 import OutletWordmark from './OutletWordmark';
 import Image from './Image';
+import { NewsLightbox, type NewsItem } from './NewsShowcase';
 
 export type ThoughtItem =
   | {
@@ -99,6 +100,9 @@ const KindBadge = ({ kind }: { kind: ThoughtItem['kind'] }) => {
 export default function FilterableThoughtGrid({ items }: { items: ThoughtItem[] }) {
   const [filter, setFilter] = useState<FilterId>('all');
   const [hover, setHover] = useState<string | null>(null);
+  // News items open a screenshot lightbox (with a "Read news" button) instead
+  // of navigating straight to the external article.
+  const [activeNews, setActiveNews] = useState<NewsItem | null>(null);
 
   const filtered = useMemo(() => {
     const list = filter === 'all' ? items : items.filter((i) => i.kind === filter);
@@ -168,13 +172,32 @@ export default function FilterableThoughtGrid({ items }: { items: ThoughtItem[] 
                   idx === 0 && 'lg:col-span-2 lg:row-span-2 lg:min-h-[28rem]',
                 )}
               >
-                <a
-                  href={item.externalUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute inset-0 z-10"
-                  aria-label={`Open “${item.title}” at ${source}`}
-                />
+                {item.kind === 'news' && item.image ? (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setActiveNews({
+                        slug: item.slug,
+                        title: item.title,
+                        outlet: item.outlet,
+                        publishedAt: item.publishedAt,
+                        teaser: item.teaser,
+                        externalUrl: item.externalUrl,
+                        image: item.image,
+                      })
+                    }
+                    className="absolute inset-0 z-10 cursor-pointer"
+                    aria-label={`View “${item.title}” coverage from ${source}`}
+                  />
+                ) : (
+                  <a
+                    href={item.externalUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute inset-0 z-10"
+                    aria-label={`Open “${item.title}” at ${source}`}
+                  />
+                )}
 
                 {hasImage && (
                   <div className="relative aspect-[16/9] w-full overflow-hidden">
@@ -248,7 +271,7 @@ export default function FilterableThoughtGrid({ items }: { items: ThoughtItem[] 
                       {item.kind === 'tv'
                         ? `Watch on ${source}`
                         : item.kind === 'news'
-                          ? `Read at ${source}`
+                          ? 'View coverage'
                           : `Read at ${source}`}
                       <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                     </span>
@@ -259,6 +282,8 @@ export default function FilterableThoughtGrid({ items }: { items: ThoughtItem[] 
           })}
         </AnimatePresence>
       </motion.ul>
+
+      {activeNews && <NewsLightbox item={activeNews} onClose={() => setActiveNews(null)} />}
     </div>
   );
 }

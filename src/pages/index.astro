@@ -2,37 +2,50 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Section from '~/components/astro/Section.astro';
-import OpEdCard from '~/components/astro/OpEdCard.astro';
 import HeroBackdrop from '~/components/astro/HeroBackdrop.astro';
-import LogoMarquee from '~/components/astro/LogoMarquee.astro';
-import OutletLogos from '~/components/astro/OutletLogos.astro';
 import StatCounter from '~/components/react/StatCounter';
 import PillarsScrollLock from '~/components/react/PillarsScrollLock';
-import QuoteRotator from '~/components/react/QuoteRotator';
+import VideoGallery from '~/components/react/VideoGallery';
+import NewsShowcase from '~/components/react/NewsShowcase';
 import MagneticButton from '~/components/react/MagneticButton';
 import {
   ArrowRight,
   Sparkles,
-  Quote as QuoteIcon,
-  Newspaper,
   ArrowUpRight,
   MapPin,
 } from 'lucide-react';
-import { PERSON, STATS, OUTLETS, PRESS_QUOTES } from '~/data/site';
+import { PERSON, STATS } from '~/data/site';
 
-const opEds = (await getCollection('opEds')).sort(
-  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
-);
-
-const featuredOpEds = opEds.filter((e) => e.data.featured).slice(0, 3);
-const heroOpEd = featuredOpEds[0] ?? opEds[0];
-const sideOpEds = featuredOpEds.slice(1, 3);
-
-// Press coverage / news entries — about Smart Lab + Reyad, not authored by him.
+// Press coverage / news — about Smart Lab + Reyad, not authored by him.
 const news = (await getCollection('news')).sort(
   (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
 );
-const latestNews = news.slice(0, 4);
+const newsItems = news.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  outlet: e.data.outlet,
+  publishedAt: e.data.publishedAt.toISOString(),
+  teaser: e.data.teaser,
+  externalUrl: e.data.externalUrl,
+  image: e.data.image,
+}));
+
+// TV interviews — drive the home video gallery from the `tv` collection.
+// YouTube links play inline (lite embed); anything else links out.
+const extractYouTubeId = (url: string) =>
+  url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/)?.[1];
+
+const tvEntries = (await getCollection('tv')).sort(
+  (a, b) => b.data.airedAt.valueOf() - a.data.airedAt.valueOf(),
+);
+const tvVideos = tvEntries.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  network: e.data.network,
+  program: e.data.program,
+  externalUrl: e.data.externalUrl,
+  videoId: extractYouTubeId(e.data.externalUrl),
+}));
 ---
 
 <BaseLayout
@@ -206,18 +219,6 @@ const latestNews = news.slice(0, 4);
   </section>
 
   <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
-  <!-- ║  OUTLETS MARQUEE — real publication wordmarks                    ║ -->
-  <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
-  <section class="relative border-y border-[var(--border-hair)] py-10">
-    <div class="page-x mx-auto max-w-7xl">
-      <p class="mb-6 text-center text-xs font-medium uppercase tracking-[0.25em] text-[var(--text-faint)]">
-        Featured · quoted · in conversation with
-      </p>
-      <LogoMarquee items={OUTLETS} speed={50} />
-    </div>
-  </section>
-
-  <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
   <!-- ║  WHAT REYAD DOES — three pillars, scroll-locked                  ║ -->
   <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
   <section class="relative">
@@ -241,201 +242,36 @@ const latestNews = news.slice(0, 4);
   </section>
 
   <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
-  <!-- ║  IN HIS OWN WORDS  — quote rotator with imagery                  ║ -->
-  <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
-  <section class="relative overflow-hidden">
-    <div class="page-x section-y mx-auto max-w-7xl">
-      <div class="grid gap-12 md:grid-cols-12 md:items-center">
-        <!-- Left: image collage -->
-        <div class="relative md:col-span-5">
-          <div class="relative aspect-square w-full overflow-hidden rounded-3xl border border-[var(--border-hair)]">
-            <img
-              src="/images/hero/network.webp"
-              alt="Network infrastructure abstract"
-              width="900"
-              height="900"
-              loading="lazy"
-              decoding="async"
-              class="h-full w-full object-cover"
-            />
-            <div aria-hidden class="absolute inset-0 bg-gradient-to-tr from-[var(--bg-base)]/90 via-transparent to-[var(--brand-soft)]"></div>
-            <div class="absolute bottom-6 left-6 right-6">
-              <p class="font-mono text-xs uppercase tracking-widest text-[var(--brand)]">2025</p>
-              <p class="mt-2 font-serif text-2xl italic leading-tight text-[var(--text-primary)]">
-                "ICT and IT-enabled services can be the next RMG for Bangladesh."
-              </p>
-              <p class="mt-3 text-xs text-[var(--text-muted)]">— Op-Ed, Daily Sun</p>
-            </div>
-          </div>
-
-          <!-- Floating mini-card -->
-          <div class="absolute -bottom-6 -right-4 max-w-[14rem] rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-elevated)]/90 p-4 shadow-2xl backdrop-blur-md">
-            <div class="flex items-center gap-2 text-[10px] font-medium uppercase tracking-widest text-[var(--accent-gold)]">
-              <Newspaper className="h-3 w-3" />
-              Twelve years
-            </div>
-            <p class="mt-2 text-sm leading-snug text-[var(--text-primary)]">
-              On the policy page of Bangladesh's leading dailies — since 2013.
-            </p>
-          </div>
-        </div>
-
-        <!-- Right: rotating quote -->
-        <div class="md:col-span-7">
-          <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--accent-gold)] backdrop-blur">
-            <QuoteIcon className="h-3 w-3" />
-            In his own words
-          </span>
-
-          <h2 class="enter mt-5 text-balance text-[var(--text-headline)] font-semibold tracking-tight">
-            Twenty years of arguments,
-            <span class="font-serif italic text-gradient">on the record.</span>
-          </h2>
-
-          <p class="enter mt-5 max-w-xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
-            The convictions that run through the writing — public, dated, in print, traceable to the moment they were made.
-          </p>
-
-          <div class="mt-10">
-            <QuoteRotator client:visible quotes={[...PRESS_QUOTES]} intervalMs={6500} />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
-  <!-- ║  PRESS COVERAGE / NEWS  — Smart Lab in the headlines             ║ -->
+  <!-- ║  IN THE NEWS — hero + continuous vertical news ticker            ║ -->
   <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
   <Section
     eyebrow="In the news"
-    title="Smart Lab Bangladesh, in the headlines."
-    intro="Press coverage of Smart Lab's regional expansion and Reyad Hasnain's public work — across Bangladesh's leading dailies."
+    title="Smart Lab & Reyad Hasnain, in the headlines."
+    intro="Press coverage across Bangladesh's leading dailies — from Mahindra Comviva and the Dhaka Motor Show to Smart Lab's expansion into Nepal. Click any story to view the original coverage."
   >
-    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-      {latestNews.map((item, i) => (
-        <a
-          href={item.data.externalUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="glass border-gradient group relative flex flex-col gap-0 overflow-hidden rounded-3xl transition-all hover:-translate-y-1 hover:shadow-2xl"
-        >
-          {item.data.image && (
-            <div class="relative aspect-[16/10] w-full overflow-hidden">
-              <img
-                src={item.data.image}
-                alt=""
-                width="800"
-                height="500"
-                loading="lazy"
-                decoding="async"
-                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-              />
-              <div
-                aria-hidden
-                class="absolute inset-0 bg-gradient-to-t from-[var(--bg-elevated)] via-[var(--bg-elevated)]/30 to-transparent"
-              ></div>
-              <span class="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full border border-[var(--accent-gold)]/40 bg-[var(--accent-gold-soft)] px-2.5 py-1 text-[10px] font-medium uppercase tracking-widest text-[var(--accent-gold)] backdrop-blur">
-                News
-              </span>
-            </div>
-          )}
-          <div class="flex flex-1 flex-col gap-3 p-5">
-            <div class="flex items-center justify-between">
-              <OutletLogos name={item.data.outlet} className="h-5 w-auto text-[var(--text-primary)]" />
-              <time
-                class="font-mono text-[10px] uppercase tracking-widest text-[var(--text-faint)]"
-                datetime={item.data.publishedAt.toISOString()}
-              >
-                {new Date(item.data.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
-              </time>
-            </div>
-            <h3 class="font-serif text-lg italic leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[var(--brand)]">
-              {item.data.title}
-            </h3>
-            <p class="text-sm leading-relaxed text-[var(--text-muted)] line-clamp-3">
-              {item.data.teaser}
-            </p>
-            <span class="mt-auto inline-flex items-center gap-1 pt-2 text-xs font-medium text-[var(--text-muted)] transition-all group-hover:translate-x-0.5 group-hover:text-[var(--brand)]">
-              Read at {item.data.outlet}
-              <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </span>
-          </div>
-        </a>
-      ))}
+    <NewsShowcase client:visible items={newsItems} />
+
+    <div class="mt-12 flex justify-center">
+      <MagneticButton client:visible href="/news" variant="secondary" size="lg">
+        View all news
+        <ArrowRight className="h-4 w-4" />
+      </MagneticButton>
     </div>
   </Section>
 
   <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
-  <!-- ║  FEATURED OP-EDS — bento, real outlet badges                     ║ -->
+  <!-- ║  TV INTERVIEWS — video gallery, inline YouTube playback          ║ -->
   <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
   <Section
-    eyebrow="Thought leadership"
-    title="Selected op-eds & commentary"
-    intro="Twelve years of writing on Bangladesh's ICT, telecom, and digital-economy policy — selected from leading national dailies."
+    eyebrow="On air"
+    title="TV interviews & commentary."
+    intro="Television interviews and on-the-record commentary — on telecom, mobile financial services, AI, and Bangladesh's digital economy. Press play to watch right here."
   >
-    <div class="grid gap-6 md:grid-cols-12">
-      {heroOpEd && (
-        <div class="md:col-span-7">
-          <article class="glass border-gradient group relative flex h-full min-h-[28rem] flex-col gap-5 overflow-hidden rounded-3xl p-8 transition-transform hover:-translate-y-1 md:p-12">
-            <a
-              href={heroOpEd.data.externalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="absolute inset-0 z-10"
-              aria-label={`Read "${heroOpEd.data.title}" at ${heroOpEd.data.outlet}`}
-            ></a>
-
-            <div
-              aria-hidden
-              class="pointer-events-none absolute -right-32 -top-32 h-72 w-72 rounded-full bg-[var(--brand-soft)] blur-3xl transition-opacity group-hover:opacity-100"
-              style="opacity: 0.5"
-            ></div>
-
-            <div class="flex items-center justify-between">
-              <OutletLogos name={heroOpEd.data.outlet} className="h-7 w-auto text-[var(--brand)]" />
-              <time class="font-mono text-xs text-[var(--text-faint)]">
-                {new Date(heroOpEd.data.publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}
-              </time>
-            </div>
-
-            <h3 class="font-serif text-balance text-3xl italic leading-tight text-[var(--text-primary)] transition-colors group-hover:text-[var(--brand)] md:text-5xl">
-              {heroOpEd.data.title}
-            </h3>
-
-            {heroOpEd.data.pullQuote && (
-              <blockquote class="border-l-2 border-[var(--brand)] pl-4 font-serif text-lg italic text-[var(--brand)]">
-                "{heroOpEd.data.pullQuote}"
-              </blockquote>
-            )}
-
-            <p class="text-pretty leading-relaxed text-[var(--text-muted)]">
-              {heroOpEd.data.teaser}
-            </p>
-
-            <div class="mt-auto flex items-center justify-between border-t border-[var(--border-hair)] pt-6">
-              <span class="font-mono text-xs text-[var(--text-faint)]">
-                Featured · {heroOpEd.data.outlet}
-              </span>
-              <span class="inline-flex items-center gap-1 text-sm font-medium text-[var(--text-muted)] transition-all group-hover:translate-x-0.5 group-hover:text-[var(--brand)]">
-                Read full piece
-                <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-              </span>
-            </div>
-          </article>
-        </div>
-      )}
-
-      <div class="grid gap-6 md:col-span-5">
-        {sideOpEds.map((e) => (
-          <OpEdCard entry={e} size="md" />
-        ))}
-      </div>
-    </div>
+    <VideoGallery client:visible items={tvVideos} />
 
     <div class="mt-12 flex justify-center">
-      <MagneticButton client:visible href="/thought-leadership" variant="secondary" size="lg">
-        View all 8 publications
+      <MagneticButton client:visible href="/tv-interviews" variant="secondary" size="lg">
+        View all interviews
         <ArrowRight className="h-4 w-4" />
       </MagneticButton>
     </div>

@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Section from '~/components/astro/Section.astro';
+import NewsGrid from '~/components/react/NewsGrid';
+import { articleSchema } from '~/lib/seo';
+
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf(),
+);
+
+const items = news.map((e) => ({
+  slug: e.id,
+  title: e.data.title,
+  outlet: e.data.outlet,
+  publishedAt: e.data.publishedAt.toISOString(),
+  teaser: e.data.teaser,
+  externalUrl: e.data.externalUrl,
+  image: e.data.image,
+}));
+
+const outlets = [...new Set(news.map((e) => e.data.outlet))];
+const years = news.map((e) => e.data.publishedAt.getFullYear());
+const yearRange = `${Math.min(...years)} – ${Math.max(...years)}`;
+
+const jsonLd = news.map((e) =>
+  articleSchema({
+    title: e.data.title,
+    description: e.data.teaser,
+    publishedAt: e.data.publishedAt,
+    url: e.data.externalUrl,
+    publisher: e.data.outlet,
+    image: e.data.image,
+  }),
+);
+---
+
+<BaseLayout
+  title="News"
+  description={`News reports, interviews, and press coverage about Reyad Hasnain and Smart Lab Bangladesh — ${news.length} stories across ${outlets.length} outlets, ${yearRange}.`}
+  path="/news"
+  breadcrumbs={[
+    { label: 'Home', href: '/' },
+    { label: 'News', href: '/news' },
+  ]}
+  jsonLd={jsonLd}
+>
+  <!-- ── HERO ─────────────────────────────────────────────────────── -->
+  <section class="page-x relative overflow-hidden pt-32 pb-16 md:pt-40">
+    <div class="aurora opacity-60"></div>
+
+    <div class="relative mx-auto max-w-7xl grid items-center gap-12 md:grid-cols-12">
+      <div class="md:col-span-7">
+        <span class="enter inline-flex items-center gap-2 rounded-full border border-[var(--border-hair)] bg-[var(--bg-glass)] px-3 py-1 text-xs font-medium uppercase tracking-widest text-[var(--brand)] backdrop-blur">
+          <span class="h-1.5 w-1.5 rounded-full bg-[var(--brand)]"></span>
+          In the news
+        </span>
+        <h1 class="enter mt-6 text-balance font-sans text-5xl font-semibold leading-[0.95] tracking-tight md:text-6xl lg:text-7xl">
+          Reyad Hasnain,
+          <span class="font-serif italic text-gradient">in the headlines.</span>
+        </h1>
+        <p class="enter mt-8 max-w-2xl text-pretty text-[var(--text-lead)] leading-relaxed text-[var(--text-muted)]">
+          News reports, interviews, and press coverage — from the Mahindra Comviva years through SUBARU Bangladesh and Smart Lab's expansion into Nepal. Click any story to view the original clipping, then read it at the source.
+        </p>
+      </div>
+
+      <div class="md:col-span-5">
+        <div class="glass border-gradient relative overflow-hidden rounded-3xl p-8">
+          <div aria-hidden class="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-[var(--brand-soft)] blur-3xl"></div>
+          <p class="font-mono text-xs uppercase tracking-widest text-[var(--brand)]">
+            Coverage at a glance
+          </p>
+          <div class="mt-5 grid grid-cols-3 gap-4 border-t border-[var(--border-hair)] pt-5">
+            <div>
+              <div class="font-mono text-3xl font-semibold text-[var(--text-primary)]">{news.length}</div>
+              <div class="mt-1 text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Stories</div>
+            </div>
+            <div>
+              <div class="font-mono text-3xl font-semibold text-[var(--text-primary)]">{outlets.length}</div>
+              <div class="mt-1 text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Outlets</div>
+            </div>
+            <div>
+              <div class="font-mono text-3xl font-semibold text-[var(--text-primary)]">{yearRange}</div>
+              <div class="mt-1 text-[10px] uppercase tracking-widest text-[var(--text-muted)]">Years</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GRID ─────────────────────────────────────────────────────── -->
+  <Section eyebrow="All coverage">
+    <NewsGrid client:load items={items} />
+  </Section>
+</BaseLayout>

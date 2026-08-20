@@ -54,19 +54,15 @@ export const STATS = [
   { value: '20+', label: 'Years global executive experience', sub: 'Asia · Africa · Europe · North America' },
   { value: '€11.2M+', label: 'Telecom infrastructure deals closed', sub: 'Negotiated and executed at NSN' },
   { value: '100%', label: 'YoY revenue growth delivered', sub: 'Across emerging-market portfolios' },
-  { value: '4', label: 'Global telecom companies led', sub: 'Smart Lab · Comviva · NSN · Siemens' },
+  { value: '3', label: 'Global telecom companies led', sub: 'Comviva · NSN · Siemens' },
 ] as const;
 
 export const NAV = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
   { label: 'Experience', href: '/experience' },
-  { label: 'Policy', href: '/policy' },
-  { label: 'Thought Leadership', href: '/thought-leadership' },
-  { label: 'Insights', href: '/insights' },
-  { label: 'Speaking', href: '/speaking' },
-  { label: 'Media Kit', href: '/media-kit' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'News', href: '/news' },
+  { label: 'TV Interviews', href: '/tv-interviews' },
 ] as const;
 
 export const OUTLETS = [

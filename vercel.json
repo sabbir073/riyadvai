@@ -53,8 +53,9 @@
     { "source": "/cv", "destination": "/media-kit", "permanent": false },
     { "source": "/bio", "destination": "/about", "permanent": false },
     { "source": "/press", "destination": "/media-kit", "permanent": false },
-    { "source": "/articles", "destination": "/thought-leadership", "permanent": false },
-    { "source": "/op-eds", "destination": "/thought-leadership", "permanent": false }
+    { "source": "/articles", "destination": "/news", "permanent": false },
+    { "source": "/op-eds", "destination": "/news", "permanent": false },
+    { "source": "/tv", "destination": "/tv-interviews", "permanent": false }
   ],
 
   "cleanUrls": true,
