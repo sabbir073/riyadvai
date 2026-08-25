@@ -45,6 +45,11 @@ const tvVideos = tvEntries.map((e) => ({
   program: e.data.program,
   externalUrl: e.data.externalUrl,
   videoId: extractYouTubeId(e.data.externalUrl),
+  thumbnail: e.data.thumbnail,
+  embedUrl:
+    e.data.externalUrl.includes('facebook.com') && e.data.embeddable
+      ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(e.data.externalUrl)}&show_text=false&autoplay=true`
+      : undefined,
 }));
 ---
 

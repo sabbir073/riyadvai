@@ -18,8 +18,12 @@ export type VideoItem = {
   network: string;
   program?: string;
   externalUrl: string;
-  /** YouTube video id — when present the card opens in the popup player. */
+  /** YouTube video id — when present the card opens in the custom popup player. */
   videoId?: string;
+  /** Embed URL (e.g. Facebook plugins/video.php) — popup iframe player. */
+  embedUrl?: string;
+  /** Explicit thumbnail image; falls back to the YouTube thumbnail. */
+  thumbnail?: string;
 };
 
 /* ── YouTube IFrame API loader (once per page) ─────────────────────── */
@@ -55,6 +59,75 @@ const fmt = (s: number) => {
   const sec = Math.floor(s % 60);
   return `${m}:${String(sec).padStart(2, '0')}`;
 };
+
+/* ── Popup for embedded (Facebook) videos — iframe player ──────────── */
+function EmbedModal({ item, onClose }: { item: VideoItem; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    document.addEventListener('keydown', onKey);
+    const prevOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKey);
+      document.documentElement.style.overflow = prevOverflow;
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={item.title}
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-8"
+    >
+      <button
+        type="button"
+        aria-label="Close video"
+        onClick={onClose}
+        className="absolute inset-0 cursor-default bg-black/80 backdrop-blur-sm"
+      />
+
+      <div className="relative w-full max-w-4xl overflow-hidden rounded-2xl border border-[var(--border-hair)] bg-black shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-black/60 text-white transition-colors hover:bg-[var(--brand)]"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <div className="relative aspect-video w-full">
+          <iframe
+            src={item.embedUrl}
+            title={item.title}
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allowFullScreen
+            className="absolute inset-0 h-full w-full border-0"
+          />
+        </div>
+
+        <div className="flex items-center justify-between gap-3 bg-black px-4 py-2.5">
+          <span className="truncate text-xs text-white/60">
+            {item.network} — {item.title}
+          </span>
+          <a
+            href={item.externalUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex shrink-0 items-center gap-1 text-xs font-medium text-white/80 transition-colors hover:text-[var(--brand)]"
+          >
+            Open on Facebook
+            <ArrowUpRight className="h-3 w-3" />
+          </a>
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
 
 /* ── Popup with custom player chrome ───────────────────────────────── */
 function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }) {
@@ -269,10 +342,10 @@ function PlayerModal({ item, onClose }: { item: VideoItem; onClose: () => void }
 
 /* ── Card ──────────────────────────────────────────────────────────── */
 function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) => void }) {
-  const isYouTube = Boolean(item.videoId);
-  const thumb = item.videoId
-    ? `https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg`
-    : undefined;
+  const playable = Boolean(item.videoId || item.embedUrl);
+  const thumb =
+    item.thumbnail ??
+    (item.videoId ? `https://i.ytimg.com/vi/${item.videoId}/hqdefault.jpg` : undefined);
 
   const media = (
     <>
@@ -300,7 +373,7 @@ function VideoCard({ item, onOpen }: { item: VideoItem; onOpen: (v: VideoItem) =
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[var(--border-hair)] bg-[var(--bg-elevated)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--brand)]/50 hover:shadow-xl">
       <div className="relative aspect-video w-full overflow-hidden bg-[var(--bg-base)]">
-        {isYouTube ? (
+        {playable ? (
           <button
             type="button"
             onClick={() => onOpen(item)}
@@ -504,7 +577,12 @@ export default function VideoGallery({
           ))}
         </div>
       )}
-      {active && <PlayerModal item={active} onClose={() => setActive(null)} />}
+      {active &&
+        (active.videoId ? (
+          <PlayerModal item={active} onClose={() => setActive(null)} />
+        ) : active.embedUrl ? (
+          <EmbedModal item={active} onClose={() => setActive(null)} />
+        ) : null)}
     </>
   );
 }

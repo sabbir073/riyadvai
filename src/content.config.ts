@@ -27,6 +27,9 @@ const tv = defineCollection({
     teaser: z.string(),
     externalUrl: z.string().url(),
     thumbnail: z.string().optional(),
+    // Facebook videos: set false when the page owner has disabled embedding —
+    // the card then links out instead of opening the popup player.
+    embeddable: z.boolean().default(true),
   }),
 });
 
